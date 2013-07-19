@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/rose/.gconf'
+let g:netrw_dirhist_2='/usr/share/tabset'
+let g:netrw_dirhist_3='/home/rose/projects/python/matrix'
+let g:netrw_dirhist_4='/home/rose/workspace/jsd1212/15_hibernate/day03/hibernate_day03_OneToMany'
+let g:netrw_dirhist_5='/root/.vim'
+let g:netrw_dirhist_6='/home/rose/.emacs.d/elpa'
+let g:netrw_dirhist_7='/home/rose/projects/c/source'
+let g:netrw_dirhist_8='/home/rose/projects/regex'
