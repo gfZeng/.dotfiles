@@ -1,6 +1,7 @@
 (global-unset-key (kbd "M-a"))
 (setq indent-tabs-mode nil)
 (setq tab-width 4)
+(setq indent-line-function 'insert-tab)
 (global-set-key (kbd "TAB") 'self-insert-command)
 ;;; set to evil {
 (add-to-list 'load-path "~/.emacs.d/evil")  ;only without ELPA/el-get

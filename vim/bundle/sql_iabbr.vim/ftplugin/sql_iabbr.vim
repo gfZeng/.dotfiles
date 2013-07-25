@@ -94,6 +94,7 @@ inoreabbr <silent> <buffer> for <C-R>=SqlIab_ReplaceConditionally('for', 'FOR')<
 inoreabbr <silent> <buffer> foreign <C-R>=SqlIab_ReplaceConditionally('foreign', 'FOREIGN')<CR>
 inoreabbr <silent> <buffer> foriegn <C-R>=SqlIab_ReplaceConditionally('foriegn', 'FOREIGN')<CR>
 inoreabbr <silent> <buffer> from <C-R>=SqlIab_ReplaceConditionally('from', 'FROM')<CR>
+inoreabbr <silent> <buffer> join <C-R>=SqlIab_ReplaceConditionally('join', 'JOIN')<CR>
 inoreabbr <silent> <buffer> function <C-R>=SqlIab_ReplaceConditionally('function', 'FUNCTION')<CR>
 inoreabbr <silent> <buffer> grant <C-R>=SqlIab_ReplaceConditionally('grant', 'GRANT')<CR>
 inoreabbr <silent> <buffer> group <C-R>=SqlIab_ReplaceConditionally('group', 'GROUP')<CR>
