@@ -10,7 +10,7 @@ filetype indent on
 set autoindent
 set smartindent
 set autoread
-set cinoptions=g-1
+set cinoptions+=g0
 set cinoptions+=:0
 
 " Case insensitive search
