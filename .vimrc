@@ -141,3 +141,6 @@ set ttimeoutlen=100
 " }
 
 source $VIMRUNTIME/vimrc_example.vim
+
+set nobackup
+set nowritebackup

@@ -1,3 +1,5 @@
+My dotfiles for vim, emacs, tmux and some others
+==================================================
 # some configuration files, such as .bushrc, .vimrc, .gvimrc
 
 这个项目的版本库是 **Git格式** ，在 Windows、Linux、Mac OS X
