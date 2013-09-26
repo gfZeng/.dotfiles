@@ -47,3 +47,4 @@ alias c++='g++ -Wall -I$HOME/projects/cpp/include -L$HOME/projects/cpp/lib64 '
 #}
 # }
 export CLOJURESCRIPT_HOME=/home/rose/clojurescript
+alias xclip='xclip -sel clipboard'
