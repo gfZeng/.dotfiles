@@ -3,6 +3,6 @@ HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=5000
 bindkey -e
-. ~/.dotfiles/.zsh_completion
-. ~/.dotfiles/.bashrc
+. /home/isaac/.dotfiles/.zsh_completion
+. /home/isaac/.dotfiles/.bashrc
 # End of lines configured by zsh-newuser-install

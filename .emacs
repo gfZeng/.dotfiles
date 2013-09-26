@@ -133,3 +133,12 @@
 (package-initialize)
 
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
+
+;; ido mode
+(ido-mode t)
+(setq ido-enable-flex-matching t) ; fuzzy matching is a must have
+(setq ido-enable-last-directory-history nil) ; forget latest selected directory names
+(require 'flx-ido)
+(flx-ido-mode 1)
+(setq ido-use-faces nil)
+(setq flx-ido-threshhold 10000)

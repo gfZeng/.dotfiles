@@ -139,3 +139,5 @@ au focusLost * silent! wa
 " fcitx {
 set ttimeoutlen=100
 " }
+
+source $VIMRUNTIME/vimrc_example.vim

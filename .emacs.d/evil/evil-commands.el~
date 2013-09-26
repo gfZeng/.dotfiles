@@ -2474,7 +2474,6 @@ The same as `list-buffers' but selects the buffer window afterwards."
 The same as `list-buffers', but shows only buffers visiting files
 and selects the list window afterwards."
   :repeat nil
-  ;(list-buffers 1)
   (buffer-menu 1)
   (select-window (get-buffer-window "*Buffer List*")))
 
