@@ -5,4 +5,5 @@ SAVEHIST=5000
 bindkey -e
 . /home/isaac/.dotfiles/.zsh_completion
 . /home/isaac/.dotfiles/.bashrc
+export PATH=$PATH:${HOME}/bin
 # End of lines configured by zsh-newuser-install
