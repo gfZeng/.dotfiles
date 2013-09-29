@@ -45,7 +45,7 @@
 ;;;}
 
 ;;; font setting {
-(set-default-font "Monaco-11")
+(set-default-font "Monaco-8")
 ;;;}
 
 ;;; lisp indent {
@@ -142,3 +142,4 @@
 (flx-ido-mode 1)
 (setq ido-use-faces nil)
 (setq flx-ido-threshhold 10000)
+(setq make-backup-files nil)
