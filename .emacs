@@ -45,7 +45,7 @@
 ;;;}
 
 ;;; font setting {
-(set-default-font "Monaco-11")
+(set-default-font "Monaco-8")
 ;;;}
 
 ;;; lisp indent {
