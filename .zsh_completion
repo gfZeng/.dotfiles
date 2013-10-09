@@ -1,7 +1,8 @@
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct
-zstyle :compinstall filename '/home/isaac/.zsh_completion'
+zstyle :compinstall filename '/home/isaac/.zsh_completion /usr/share/git/completion/git-completion.zsh'
+
 
 autoload -Uz compinit
 compinit
