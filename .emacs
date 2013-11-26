@@ -75,6 +75,8 @@
 	  '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 (add-hook 'c++-mode-hook
 	  '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'js-mode-hook
+	  '(lambda () (local-set-key (kbd "RET") 'newline-and-indent)))
 ;;; }
 
 (global-unset-key (kbd "C-r"))
@@ -158,3 +160,37 @@
 ;;          (lambda ()
 ;;            (define-key css-mode-map "\M-\C-x" 'slime-js-refresh-css)
 ;;            (define-key css-mode-map "\C-c\C-r" 'slime-js-embed-css)))
+;;
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+(el-get 'sync)
+
+(setq python-shell-interpreter "/usr/bin/ipython2")
+
+(setq ein:use-auto-complete t)
+;; Or, to enable "superpack" (a little bit hacky improvements):
+;; (setq ein:use-auto-complete-superpack t)
+
+;;(add-to-list 'load-path "~/.emacs.d/python-mode.el-6.1.2")
+;;(autoload 'python-mode "python-mode" "Python Mode." t)
+;;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+;;(setq
+;; python-shell-interpreter "ipython"
+;; python-shell-interpreter-args ""
+;; python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+;; python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+;; python-shell-completion-setup-code
+;;   "from IPython.core.completerlib import module_completion"
+;; python-shell-completion-module-string-code
+;;   "';'.join(module_completion('''%s'''))\n"
+;; python-shell-completion-string-code
+;;   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")

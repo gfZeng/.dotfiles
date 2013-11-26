@@ -1,6 +1,6 @@
 " Turn on line numbering, turn it of with "set nonu"
 set nu
-set mouse=a
+"set mouse=a
 
 " Set syntax on
 syn on
@@ -144,3 +144,5 @@ source $VIMRUNTIME/vimrc_example.vim
 
 set nobackup
 set nowritebackup
+set autowrite
+set autoread
