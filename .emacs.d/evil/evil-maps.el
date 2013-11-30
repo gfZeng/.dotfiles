@@ -27,6 +27,7 @@
 
 (require 'evil-states)
 (require 'evil-ex)
+(require 'evil-commands)
 
 ;;; Code:
 
@@ -99,10 +100,7 @@
 
 ;; undo
 (define-key evil-normal-state-map "u" 'undo)
-
-(when (fboundp 'undo-tree-undo)
-  (define-key evil-normal-state-map "u" 'undo-tree-undo)
-  (define-key evil-normal-state-map "\C-r" 'undo-tree-redo))
+(define-key evil-normal-state-map "\C-r" 'redo)
 
 ;; window commands
 (define-prefix-command 'evil-window-map)
@@ -403,8 +401,7 @@
 (evil-ex-define-cmd "sbN[ext]" "sbprevious")
 (evil-ex-define-cmd "buffers" 'evil-show-buffers)
 (evil-ex-define-cmd "files" 'evil-show-files)
-(evil-ex-define-cmd "lb" "buffers")
-(evil-ex-define-cmd "ls" "files")
+(evil-ex-define-cmd "ls" "buffers")
 
 (evil-ex-define-cmd "c[hange]" 'evil-change)
 (evil-ex-define-cmd "co[py]" 'evil-copy)

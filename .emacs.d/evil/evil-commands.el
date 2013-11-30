@@ -624,6 +624,17 @@ and jump to the corresponding one."
             (char (nth 1 evil-last-find))
             (fwd (nth 2 evil-last-find))
             evil-last-find)
+        ;; ensure count is non-negative
+        (when (< count 0)
+          (setq count (- count)
+                fwd (not fwd)))
+        ;; skip next character when repeating t or T
+        (and (eq cmd #'evil-find-char-to)
+             evil-repeat-find-to-skip-next
+             (= count 1)
+             (or (and fwd (= (char-after (1+ (point))) char))
+                 (and (not fwd) (= (char-before) char)))
+             (setq count (1+ count)))
         (funcall cmd (if fwd count (- count)) char)
         (unless (nth 2 evil-last-find)
           (setq evil-this-type 'exclusive)))
@@ -1141,6 +1152,13 @@ or line COUNT to the top of the window."
   :motion evil-line
   :move-point nil
   (interactive "<R><x>")
+  (when (evil-visual-state-p)
+    (unless (memq type '(line block))
+      (let ((range (evil-expand beg end 'line)))
+        (setq beg (evil-range-beginning range)
+              end (evil-range-end range)
+              type (evil-type range))))
+    (evil-exit-visual-state))
   (evil-yank beg end type register))
 
 (evil-define-operator evil-delete (beg end type register yank-handler)
@@ -1771,7 +1789,8 @@ when called interactively."
       (unless evil-this-macro
         (error "No previous macro"))
     (condition-case err
-        (execute-kbd-macro macro count)
+        (evil-with-single-undo
+          (execute-kbd-macro macro count))
       ;; enter Normal state if the macro fails
       (error
        (evil-normal-state)
@@ -2465,8 +2484,7 @@ If no FILE is specified, reload the current buffer from disk."
   "Shows the buffer-list.
 The same as `list-buffers' but selects the buffer window afterwards."
   :repeat nil
-  ;(list-buffers)
-  (buffer-menu)
+  (list-buffers)
   (select-window (get-buffer-window "*Buffer List*")))
 
 (evil-define-command evil-show-files ()
@@ -2474,8 +2492,7 @@ The same as `list-buffers' but selects the buffer window afterwards."
 The same as `list-buffers', but shows only buffers visiting files
 and selects the list window afterwards."
   :repeat nil
-  ;(list-buffers 1)
-  (buffer-menu 1)
+  (list-buffers 1)
   (select-window (get-buffer-window "*Buffer List*")))
 
 (evil-define-command evil-buffer (buffer)
@@ -2810,8 +2827,8 @@ resp.  after executing the command."
   (setq evil-ex-last-was-search nil)
   (let* ((flags (append flags nil))
          (confirm (memq ?c flags))
-         (case-fold-search (eq (evil-ex-pattern-case-fold pattern)
-                               'insensitive))
+         (case-fold-search (evil-ex-pattern-ignore-case pattern))
+         (case-replace case-fold-search)
          (evil-ex-substitute-regex (evil-ex-pattern-regex pattern)))
     (setq evil-ex-substitute-pattern pattern
           evil-ex-substitute-replacement replacement
@@ -2829,12 +2846,16 @@ resp.  after executing the command."
                              (1- end)
                            end))
       (let ((evil-ex-substitute-nreplaced 0)
-            (evil-ex-substitute-next-line (line-number-at-pos beg))
-            (evil-ex-substitute-last-line
-             (if (save-excursion (goto-char end) (bolp))
-                 (1- (line-number-at-pos end))
-               (line-number-at-pos end)))
-            (evil-ex-substitute-last-point (point)))
+            (evil-ex-substitute-last-point (point))
+            markers
+            transient-mark-mode)
+        (save-excursion
+          (goto-char beg)
+          (beginning-of-line)
+          (while (< (point) end)
+            (push (move-marker (make-marker) (point)) markers)
+            (forward-line)))
+        (setq markers (nreverse markers))
         (if confirm
             (let ((evil-ex-substitute-overlay
                    (make-overlay (point) (point)))
@@ -2874,42 +2895,33 @@ resp.  after executing the command."
                                                 (evil-ex-hl-get-max
                                                  'evil-ex-substitute)))
                      #'(lambda ()
-                         (goto-char (point-min))
-                         (when (and
-                                (zerop
-                                 (forward-line
-                                  (1- evil-ex-substitute-next-line)))
-                                (bolp)
-                                (re-search-forward
-                                 evil-ex-substitute-regex
-                                 nil t nil)
-                                (<= (line-number-at-pos (match-end 0))
-                                    evil-ex-substitute-last-line))
-                           (goto-char (match-beginning 0))
-                           (setq evil-ex-substitute-next-line
-                                 (1+ (line-number-at-pos (point))))
-                           (match-data)))))
+                         (catch 'found
+                           (while markers
+                             (let ((m (pop markers)))
+                               (goto-char m)
+                               (move-marker m nil))
+                             (when (re-search-forward evil-ex-substitute-regex
+                                                      (line-end-position) t nil)
+                               (goto-char (match-beginning 0))
+                               (throw 'found (match-data))))))))
                 (evil-ex-delete-hl 'evil-ex-substitute)
                 (delete-overlay evil-ex-substitute-overlay)))
 
           ;; just replace the first occurrences per line
           ;; without highlighting and asking
-          (goto-char (point-min))
-          (let ((num (1- evil-ex-substitute-next-line)))
-            (while (and (zerop (forward-line num))
-                        (bolp)
-                        (re-search-forward
-                         evil-ex-substitute-regex nil t nil)
-                        (<= (line-number-at-pos
-                             (match-beginning 0))
-                            evil-ex-substitute-last-line))
+          (while markers
+            (let ((m (pop markers)))
+              (goto-char m)
+              (move-marker m nil))
+            (when (re-search-forward evil-ex-substitute-regex
+                                     (line-end-position) t nil)
               (setq evil-ex-substitute-nreplaced
                     (1+ evil-ex-substitute-nreplaced))
               (evil-replace-match evil-ex-substitute-replacement
                                   (not case-replace))
-              (setq evil-ex-substitute-last-point (point))
-              (setq num 1))))
+              (setq evil-ex-substitute-last-point (point)))))
 
+        (while markers (move-marker (pop markers) nil))
         (goto-char evil-ex-substitute-last-point)
 
         (message "Replaced %d occurrence%s"
@@ -3276,7 +3288,7 @@ and opens a new buffer or edits a certain FILE."
     (let ((buffer (generate-new-buffer "*new*")))
       (set-window-buffer (selected-window) buffer)
       (with-current-buffer buffer
-        (evil-normal-state)))))
+        (funcall (default-value 'major-mode))))))
 
 (evil-define-command evil-window-vnew (count file)
   "Splits the current window vertically
@@ -3289,7 +3301,7 @@ and opens a new buffer name or edits a certain FILE."
     (let ((buffer (generate-new-buffer "*new*")))
       (set-window-buffer (selected-window) buffer)
       (with-current-buffer buffer
-        (evil-normal-state)))))
+        (funcall (default-value 'major-mode))))))
 
 (evil-define-command evil-window-increase-height (count)
   "Increase current window height by COUNT."
@@ -3704,22 +3716,34 @@ if the previous state was Emacs state."
   (evil-normal-state)
   (evil-echo "Switched to Normal state for the next command ..."))
 
-(defun evil-execute-in-emacs-state (&optional arg)
-  "Execute the next command in Emacs state."
-  (interactive "p")
-  (cond
-   (arg
-    (add-hook 'post-command-hook #'evil-execute-in-emacs-state t)
-    (setq evil-execute-in-emacs-state-buffer (current-buffer))
-    (evil-emacs-state)
-    (evil-echo "Switched to Emacs state for the next command ..."))
-   ((and (not (eq this-command #'evil-execute-in-emacs-state))
-         (not (minibufferp)))
-    (remove-hook 'post-command-hook 'evil-execute-in-emacs-state)
+(defun evil-stop-execute-in-emacs-state ()
+  (when (and (not (eq this-command #'evil-execute-in-emacs-state))
+             (not (minibufferp)))
+    (remove-hook 'post-command-hook 'evil-stop-execute-in-emacs-state)
     (when (buffer-live-p evil-execute-in-emacs-state-buffer)
       (with-current-buffer evil-execute-in-emacs-state-buffer
-        (evil-change-to-previous-state)))
-    (setq evil-execute-in-emacs-state-buffer))))
+        (if (and (eq evil-previous-state 'visual)
+                 (not (use-region-p)))
+            (progn
+              (evil-change-to-previous-state)
+              (evil-exit-visual-state))
+          (evil-change-to-previous-state))))
+    (setq evil-execute-in-emacs-state-buffer nil)))
+
+(evil-define-command evil-execute-in-emacs-state ()
+  "Execute the next command in Emacs state."
+  (add-hook 'post-command-hook #'evil-stop-execute-in-emacs-state t)
+  (setq evil-execute-in-emacs-state-buffer (current-buffer))
+  (cond
+   ((evil-visual-state-p)
+    (let ((mrk (mark))
+          (pnt (point)))
+      (evil-emacs-state)
+      (set-mark mrk)
+      (goto-char pnt)))
+   (t
+    (evil-emacs-state)))
+  (evil-echo "Switched to Emacs state for the next command ..."))
 
 (defun evil-exit-visual-and-repeat (event)
   "Exit insert state and repeat event.

@@ -45,7 +45,7 @@
 ;;;}
 
 ;;; font setting {
-(set-default-font "Monaco-11")
+(set-default-font "Monaco-10")
 ;;;}
 
 ;;; lisp indent {
@@ -146,6 +146,7 @@
 (setq ido-use-faces nil)
 (setq flx-ido-threshhold 10000)
 (setq make-backup-files nil)
+(setq auto-save-default nil)
 (global-auto-revert-mode t)
 
 ;; js2-mode
@@ -194,3 +195,5 @@
 ;;   "';'.join(module_completion('''%s'''))\n"
 ;; python-shell-completion-string-code
 ;;   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+(global-set-key (kbd "C-SPC") nil)
+;;(setq show-paren-style 'expression)

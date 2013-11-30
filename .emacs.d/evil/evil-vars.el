@@ -196,6 +196,11 @@ moves the cursor."
   :type 'boolean
   :group 'evil)
 
+(defcustom evil-repeat-find-to-skip-next t
+  "Whether a repeat of t or T should skip an adjacent character."
+  :type 'boolean
+  :group 'evil)
+
 (defcustom evil-kbd-macro-suppress-motion-error nil
   "Whether left/right motions signal errors during keyboard-macro definition.
 If this variable is set to non-nil, then the function
@@ -526,6 +531,9 @@ If STATE is nil, Evil is disabled in the buffer."
     magit-wazzup-mode
     mh-folder-mode
     monky-mode
+    mu4e-main-mode
+    mu4e-headers-mode
+    mu4e-view-mode
     notmuch-hello-mode
     notmuch-search-mode
     notmuch-show-mode
@@ -537,6 +545,7 @@ If STATE is nil, Evil is disabled in the buffer."
     rebase-mode
     recentf-dialog-mode
     reftex-select-bib-mode
+    reftex-select-label-mode
     reftex-toc-mode
     sldb-mode
     slime-inspector-mode
@@ -624,9 +633,11 @@ If STATE is nil, Evil is disabled in the buffer."
     ert-results-mode
     help-mode
     Info-mode
+    Man-mode
     speedbar-mode
     undo-tree-visualizer-mode
-    view-mode)
+    view-mode
+    woman-mode)
   "Modes that should come up in Motion state."
   :type  '(repeat symbol)
   :group 'evil)
@@ -697,6 +708,10 @@ intercepted."
     beginning-of-visual-line
     c-beginning-of-defun
     c-end-of-defun
+    diff-file-next
+    diff-file-prev
+    diff-hunk-next
+    diff-hunk-prev
     down-list
     end-of-buffer
     end-of-defun
@@ -763,14 +778,12 @@ intercepted."
     pop-to-mark-command
     previous-error
     previous-line
-    redo
     right-char
     right-word
     scroll-down
     scroll-up
-    undo
-    undo-tree-redo
-    undo-tree-undo
+    sgml-skip-tag-backward
+    sgml-skip-tag-forward
     up-list)
   "Non-Evil commands to initialize to motions."
   :type  '(repeat symbol)
@@ -871,6 +884,16 @@ available for completion."
                           :foreground "red"))
   "Face for the info message in ex mode."
   :group 'evil)
+
+(defcustom evil-ex-visual-char-range nil
+  "Type of default ex range in visual char state.
+If non-nil the default range when starting an ex command from
+character visual state is `<,`> otherwise it is '<,'>. In the
+first case the ex command will be passed a region covering only
+the visual selection. In the second case the passed region will
+be extended to contain full lines."
+  :group 'evil
+  :type 'boolean)
 
 ;; Searching
 (defcustom evil-magic t
@@ -1099,6 +1122,11 @@ of `evil-inhibit-operator' from one local scope to another.")
 
 (defvar evil-operator-range-motion nil
   "Motion of `evil-operator-range'.")
+
+(defvar evil-restriction-stack nil
+  "List of previous restrictions.
+Using `evil-with-restriction' stores the previous values of
+`point-min' and `point-max' as a pair in this list.")
 
 (evil-define-local-var evil-markers-alist
   '((?\( . evil-backward-sentence)
