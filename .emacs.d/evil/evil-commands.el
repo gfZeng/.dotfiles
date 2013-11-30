@@ -2487,12 +2487,27 @@ The same as `list-buffers' but selects the buffer window afterwards."
   (list-buffers)
   (select-window (get-buffer-window "*Buffer List*")))
 
+(evil-define-command evil-show-buffers-in-this-window ()
+  "Shows the buffer-list.
+The same as `list-buffers' but selects the buffer window afterwards."
+  :repeat nil
+  (buffer-menu)
+  (select-window (get-buffer-window "*Buffer List*")))
+
 (evil-define-command evil-show-files ()
   "Shows the file-list.
 The same as `list-buffers', but shows only buffers visiting files
 and selects the list window afterwards."
   :repeat nil
   (list-buffers 1)
+  (select-window (get-buffer-window "*Buffer List*")))
+
+(evil-define-command evil-show-files-in-this-window ()
+  "Shows the file-list.
+The same as `list-buffers', but shows only buffers visiting files
+and selects the list window afterwards."
+  :repeat nil
+  (buffer-menu 1)
   (select-window (get-buffer-window "*Buffer List*")))
 
 (evil-define-command evil-buffer (buffer)

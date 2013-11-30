@@ -107,7 +107,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-enabled-themes (quote (manoj-dark)))
+ ;'(custom-enabled-themes (quote (manoj-dark)))
+ '(custom-enabled-themes '(color-theme-emacs-nw))
  '(inhibit-startup-screen t)
  '(scroll-bar-mode nil))
 (custom-set-faces
@@ -197,3 +198,15 @@
 ;;   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 (global-set-key (kbd "C-SPC") nil)
 ;;(setq show-paren-style 'expression)
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+
+(auto-insert-mode)  ;;; Adds hook to find-files-hook
+(setq auto-insert-directory "~/.templates/") ;;; Or use custom, *NOTE* Trailing slash important
+(setq auto-insert-query nil) ;;; If you don't want to be prompted before insertion
+;(define-auto-insert "\.py" "python/headers.py")
+;(define-auto-insert "\.php" "my-php-template.php")
+
+;(setq time-stamp-pattern "8/.*Updated Time:[ \t]+\\\\?[\"<]+%:y-%02m-%02d %02H:%02M:%02S\\\\?[\">]")
+(setq time-stamp-pattern "8/Updated Time:[ \t]+\\\\?%:y-%02m-%02d %02H:%02M:%02S\\\\?$")
+(add-hook 'before-save-hook 'time-stamp)
+

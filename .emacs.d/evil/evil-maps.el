@@ -402,6 +402,8 @@
 (evil-ex-define-cmd "buffers" 'evil-show-buffers)
 (evil-ex-define-cmd "files" 'evil-show-files)
 (evil-ex-define-cmd "ls" "buffers")
+(evil-ex-define-cmd "lf" 'evil-show-files-in-this-window)
+(evil-ex-define-cmd "lb" 'evil-show-buffers-in-this-window)
 
 (evil-ex-define-cmd "c[hange]" 'evil-change)
 (evil-ex-define-cmd "co[py]" 'evil-copy)
