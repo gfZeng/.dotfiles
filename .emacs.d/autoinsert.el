@@ -110,6 +110,15 @@ If this contains a %s, that will be replaced by the matching rule."
 	      (file-name-nondirectory (concat stem ".hh")))))
      & ?\" | -10)
 
+    (("\\.clj\\'" . "Clojure program")
+     nil
+     ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" \n
+     "; @Autor:        Isaac.Zeng ~~~ gaofeng.zeng@togic.com" \n
+     "; @Setup Time:   " (format-time-string "%A, %e %B %Y.") \n
+     "; @Updated Time: " (format-time-string "%Y-%02m-%02d %02H:%02M:%02S") \n
+     "; @Description:  " \n
+     ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" \n \n)
+
     (("\\.py\\'" . "Python script")
      nil
      "#!/usr/bin/env python2" \n
