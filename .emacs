@@ -1,6 +1,6 @@
 (global-unset-key (kbd "M-a"))
-(setq indent-tabs-mode nil)
-(setq tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 (global-set-key (kbd "TAB") 'self-insert-command)
 ;;; set to evil {
@@ -15,6 +15,10 @@
 (require 'evil-numbers)
 ;;; }
 
+
+;(require 'tree-mode)
+;(require 'windata)
+;(require 'dirtree)
 ;;; {
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/dec-at-pt)
@@ -25,10 +29,10 @@
 ;;;; }
 
 ;;; set to slime {
-(add-to-list 'load-path "~/.emacs.d/slime")
-(setq inferior-lisp-program "/usr/bin/sbcl")
-(require 'slime)
-(slime-setup)
+;(add-to-list 'load-path "~/.emacs.d/slime")
+;(setq inferior-lisp-program "/usr/bin/sbcl")
+;(require 'slime)
+;(slime-setup)
 ;(setq slime-lisp-implementations
 ;      '((clj ("~/clojurescript/script/repl"))
 ;	(sbcl ("sbcl" "--noinform") :coding-system utf-8-unix)))
@@ -133,6 +137,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
@@ -209,4 +215,3 @@
 ;(setq time-stamp-pattern "8/.*Updated Time:[ \t]+\\\\?[\"<]+%:y-%02m-%02d %02H:%02M:%02S\\\\?[\">]")
 (setq time-stamp-pattern "8/Updated Time:[ \t]+\\\\?%:y-%02m-%02d %02H:%02M:%02S\\\\?$")
 (add-hook 'before-save-hook 'time-stamp)
-
