@@ -1,1 +1,0 @@
-/opt/node-v0.10.19-linux-x64/lib/node_modules/swank-js/slime-js.el
