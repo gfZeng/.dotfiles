@@ -41,7 +41,7 @@ alias xdg-open='xdg-open &>/dev/null '
 
 # alias for gcc {
 alias cc='gcc -Wall -std=c99 -I$HOME/projects/c/include -L$HOME/projects/c/lib64 '
-alias c++='g++ -Wall -I$HOME/projects/cpp/include -L$HOME/projects/cpp/lib64 '
+alias c++='g++ -Wall -I$HOME/projects/cpp/include -I$HOME/projects/c/include -L$HOME/projects/cpp/lib64 -L$HOME/projects/c/lib64'
 #function cc {
 #    gcc -Wall -std=c99 -I$HOME/projects/c/include -L$HOME/projects/c/lib64 "$@"
 #}
