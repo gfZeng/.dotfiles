@@ -1,5 +1,6 @@
 ;;; begin hack
 (global-linum-mode t)
+(global-auto-revert-mode t)
 (setq auto-save-default nil)
 (setq make-backup-files nil)
 (global-unset-key (kbd "C-a"))
@@ -27,31 +28,37 @@
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
-(add-hook 'cider-mode-hook 'cider-turn-eldoc-mode)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 ;(setq nrepl-hide-special-buffers t)
 ;(setq cider-repl-tab-command 'indent-for-tab-command)
-;(setq cider-repl-pop-to-buffer-on-connection nil)
+;(setq cider-repl-pop-to-buffer-on-connect nil)
 ;(setq cider-popup-stacktraces nil)
-(setq cider-repl-pop-stacktraces t)
+(setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-display-in-current-window t) ; C-c C-z
-(setq cider-repl-print-length 100) ; can print infinite collection
+(setq cider-repl-print-length 100) ; the default is nil, no limit, can print infinite collection
 (setq cider-prompt-save-file-on-load nil)
 (setq cider-repl-use-clojure-font-lock t)
 (setq cider-repl-wrap-history t)
-(setq cider-repl-history-size 1000)
+(setq cider-repl-history-size 1000) ; the default is 500
 (setq cider-repl-history-file "~/.cider.hist")
 
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20140208.653/dict")
+(ac-config-default)
 (add-hook 'cider-repl-mode-hook 'subword-mode)
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
-(add-hook 'cider-repl-mode-hook 'smartparens-strict-mode)
+;(add-hook 'cider-repl-mode-hook 'smartparens-strict-mode)
 (add-hook 'cider-repl-mode-hook 'ac-nrepl-setup)
 (add-hook 'clojure-mode-hook 'ac-nrepl-setup)
 (add-hook 'cider-mode-hook 'ac-nrepl-setup)
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'cider-repl-mode))
-(require 'auto-complete-config)
-(ac-config-default)
+(defun set-auto-complete-as-completion-at-point-function ()
+  (setq completion-at-point-functions '(auto-complete)))
+(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-repl-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode) 
