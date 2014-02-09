@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+function link()
+{
+    path=$1
+    from_path=$HOME/.dotfiles/$path
+    to_path=$HOME/$path
+    if [ ! -d $to_path -a ! -f $to_path ]; then
+        ln -s $from_path $to_path
+        echo "link $from_path to $to_path"
+    else
+        echo "WARNNING: $to_path exists"
+    fi
+}
+
+link_files=('.bashrc' '.zshrc' '.tmux.conf' '.xinitrc' '.bash_profile' '.gvimrc' '.zsh_completion' '.vim' '.vimrc' '.emacs' '.emacs.d')
+
+for f in ${link_files[@]}
+do
+    echo $f
+    link $f
+done
