@@ -1,6 +1,11 @@
 ;;; begin hack
 (global-linum-mode t)
 (global-auto-revert-mode t)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq indent-line-function 'insert-tab)
+;(global-set-key (kbd "TAB") 'self-insert-command)
+(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 (setq auto-save-default nil)
 (setq make-backup-files nil)
 (global-unset-key (kbd "C-a"))
