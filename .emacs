@@ -1,4 +1,10 @@
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
 ;;; begin hack
+(modify-syntax-entry ?- "w")
 (global-linum-mode t)
 (global-auto-revert-mode t)
 (setq-default indent-tabs-mode nil)
@@ -18,13 +24,17 @@
 (setq ido-enable-flex-matching t)
 ;(setq ido-enable-last-directory-history nil)
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(package-initialize)
+;;; abbreviation
+(setq abbrev-file-name "~/.emacs.d/abbrev-defs")
+(setq save-abbrevs nil)
+(setq-default abbrev-mode t)
+(when (file-exists-p abbrev-file-name)
+    (quietly-read-abbrev-file))
+
 (set-default-font "Monaco-10")
 (show-paren-mode t)
 
+(autopair-global-mode)
 (evil-mode t)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/dec-at-pt)
 (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/inc-at-pt)

@@ -83,7 +83,8 @@
                 (regexp-opt '("defn" "defn-" "def" "defonce"
                               "defmulti" "defmethod" "defmacro"
                               "defstruct" "deftype" "defprotocol"
-                              "defrecord" "deftest" "def\\[a-z\\]"))
+                              "defrecord" "deftest" "def\\[a-z\\]"
+                              "λ"))
                 ;; Function declarations.
                 "\\)\\>"
                 ;; Any whitespace
