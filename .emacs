@@ -48,7 +48,7 @@
 ;(setq cider-repl-tab-command 'indent-for-tab-command)
 ;(setq cider-repl-pop-to-buffer-on-connect nil)
 ;(setq cider-popup-stacktraces nil)
-(setq cider-repl-popup-stacktraces t)
+;(setq cider-repl-popup-stacktraces t)
 (setq cider-auto-select-error-buffer t)
 (setq cider-repl-display-in-current-window t) ; C-c C-z
 (setq cider-repl-print-length 100) ; the default is nil, no limit, can print infinite collection
