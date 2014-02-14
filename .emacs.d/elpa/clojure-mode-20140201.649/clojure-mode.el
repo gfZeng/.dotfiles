@@ -814,7 +814,7 @@ This function also returns nil meaning don't specify the indentation."
                         (not method))
                    (and (null method)
                         (> (length function) 3)
-                        (string-match "\\`\\(?:\\S +/\\)?\\(def\\|with-\\)"
+                        (string-match "\\`\\(?:\\S +/\\)?\\(def\\|with-\\|on-\\)"
                                       function)))
                (lisp-indent-defform state indent-point))
 
