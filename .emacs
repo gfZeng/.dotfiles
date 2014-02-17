@@ -4,6 +4,7 @@
 (package-initialize)
 
 ;;; begin hack
+(scroll-bar-mode -1)
 (modify-syntax-entry ?- "w")
 (global-linum-mode t)
 (global-auto-revert-mode t)
