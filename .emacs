@@ -36,6 +36,11 @@
 (show-paren-mode t)
 
 (autopair-global-mode)
+(global-evil-leader-mode)
+(evil-leader/set-leader ",")
+(evil-leader/set-key
+ "dt" 'project-explorer-open)
+
 (evil-mode t)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/dec-at-pt)
 (define-key evil-normal-state-map (kbd "C-S-a") 'evil-numbers/inc-at-pt)
