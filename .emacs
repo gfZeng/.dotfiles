@@ -35,6 +35,7 @@
 (set-default-font "Monaco-10")
 (show-paren-mode t)
 
+(require 'mustache-mode)
 (autopair-global-mode)
 (global-evil-leader-mode)
 (evil-leader/set-leader ",")
