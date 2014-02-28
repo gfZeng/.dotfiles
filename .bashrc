@@ -48,3 +48,5 @@ alias c++='g++ -Wall -I$HOME/projects/cpp/include -I$HOME/projects/c/include -L$
 # }
 export CLOJURESCRIPT_HOME=/home/rose/clojurescript
 alias xclip='xclip -sel clipboard'
+alias emacs='LC_CTYPE=zh_CN.UTF-8 emacs '
+alias urlencode=python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"
