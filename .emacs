@@ -6,6 +6,7 @@
 ;;; begin hack
 (scroll-bar-mode -1)
 (modify-syntax-entry ?- "w")
+(modify-syntax-entry ?_ "w")
 (global-linum-mode t)
 (global-auto-revert-mode t)
 (setq-default indent-tabs-mode nil)
