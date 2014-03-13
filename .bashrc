@@ -50,3 +50,11 @@ export CLOJURESCRIPT_HOME=/home/rose/clojurescript
 alias xclip='xclip -sel clipboard'
 alias emacs='LC_CTYPE=zh_CN.UTF-8 emacs '
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])" '
+alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+
+
+
+
+export PATH=${PATH}:/opt/local/android-studio/sdk/platform-tools:/opt/local/android-studio/sdk/build-tools/android-4.4.2:/opt/local/node/bin
+export PATH=${PATH}:/opt/local/hadoop/bin
+export NODE_PATH=${NODE_PATH}:/opt/local/node/lib/node_modules
