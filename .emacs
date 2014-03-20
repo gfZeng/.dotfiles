@@ -86,12 +86,49 @@
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode) 
 
+(defun push->list (l x)
+  (append l (list x)))
+
+(defmacro ->> (ret &rest bodys)
+  (if bodys
+      (let ((body (car bodys)))
+        (if (symbolp body)
+            `(->> (,body ,ret) ,@(cdr bodys))
+          `(->> ,(push->list body ret) ,@(cdr bodys))))
+    ret))
+
+(defun slurp (f)
+  (with-temp-buffer
+    (insert-file-contents f)
+    (buffer-string)))
+
+(defun template (f)
+  (->> (concat "~/.emacs.d/templates/" f)
+       slurp
+       (replace-regexp-in-string "\${time}" (format-time-string "%d/%m/%Y %T"))
+       (replace-regexp-in-string "\${date}" (format-time-string "%a, %d %b %Y"))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(auto-insert-mode t)
+ '(auto-insert-query nil)
+ '(auto-insert-alist (append auto-insert-alist
+                             '((("\\.py\\'" . "Python Script")
+                                (template "py.template")
+                                str)
+                               (("\\.js\\'" . "Javascript")
+                                (template "js.template")
+                                str)
+                               (("\\.clj\\'" . "Clojure")
+                                (template "clj.template")
+                                str)
+                               (("\\.\\[c\\|cc\\]\\'" . "C / C++")
+                                (template "c.template")
+                                str)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
