@@ -1,4 +1,5 @@
 (require 'package)
+(add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
@@ -107,6 +108,10 @@
        slurp
        (replace-regexp-in-string "\${time}" (format-time-string "%d/%m/%Y %T"))
        (replace-regexp-in-string "\${date}" (format-time-string "%a, %d %b %Y"))))
+
+(require 'refheap)
+
+(put 'if 'lisp-indent-function 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
