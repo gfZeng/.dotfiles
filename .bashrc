@@ -17,7 +17,7 @@ alias vi='vim'
 
 # colorful prompt
 #PS1='${fedora_chroot:+($fedora_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;34m\] \W\[\033[00m\]\$ '
-PS1='${fedora_chroot:+($fedora_chroot)}\[\033[01;33m\]\t\[\033[00m\]:\[\033[01;34m\] \W\[\033[00m\]\$ '
+#PS1='${fedora_chroot:+($fedora_chroot)}\[\033[01;33m\]\t\[\033[00m\]:\[\033[01;34m\] \W\[\033[00m\]\$ '
 # root bashrc file {
 #PS1='${fedora_chroot:+($fedora_chroot)}\[\033[01;31m\]\t\[\033[00m\]:\[\033[01;34m\] \w\[\033[00m\]\$ '
 # }
