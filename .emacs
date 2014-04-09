@@ -11,11 +11,16 @@
 (load-file "~/tmp/test.el")
 ;;; begin hack
 (scroll-bar-mode -1)
-(add-hook 'after-init-hook
-  (lambda ()
-    (message "set ?-, ?_ to word")
-    (modify-syntax-entry ?- "w")
-    (modify-syntax-entry ?_ "w")))
+(dolist (hook '(emacs-lisp-mode-hook
+                clojure-mode-hook
+                python-mode-hook
+                javascript-mode-hook))
+  (add-hook hook
+            (lambda ()
+              (message "set ?-, ?_ to word")
+              (modify-syntax-entry ?- "w")
+              (modify-syntax-entry ?_ "w"))))
+
 (global-linum-mode t)
 (global-auto-revert-mode t)
 (setq-default indent-tabs-mode nil)
