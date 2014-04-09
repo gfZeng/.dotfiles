@@ -14,6 +14,7 @@
 (dolist (hook '(emacs-lisp-mode-hook
                 clojure-mode-hook
                 python-mode-hook
+                erlang-mode-hook
                 javascript-mode-hook))
   (add-hook hook
             (lambda ()
