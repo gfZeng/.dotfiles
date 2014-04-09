@@ -58,3 +58,5 @@ alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.
 export PATH=${PATH}:/opt/local/android-studio/sdk/platform-tools:/opt/local/android-studio/sdk/build-tools/android-4.4.2:/opt/local/node/bin
 export PATH=${PATH}:/opt/local/hadoop/bin
 export NODE_PATH=${NODE_PATH}:/opt/local/node/lib/node_modules
+export PYTHONPATH=$PYTHONPATH:${HOME}/util/python
+export PATH=${PATH}:/opt/local/otp/bin
