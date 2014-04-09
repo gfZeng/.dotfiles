@@ -3,11 +3,19 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
-
+(defvar load-file-fn (symbol-function 'load-file))
+(setf (symbol-function 'load-file)
+      (lambda (file)
+        (message ".>>>>>>>>>>>>>>>>loading... %s" file)
+        (funcall load-file-fn file)))
+(load-file "~/tmp/test.el")
 ;;; begin hack
 (scroll-bar-mode -1)
-(modify-syntax-entry ?- "w")
-(modify-syntax-entry ?_ "w")
+(add-hook 'after-init-hook
+  (lambda ()
+    (message "set ?-, ?_ to word")
+    (modify-syntax-entry ?- "w")
+    (modify-syntax-entry ?_ "w")))
 (global-linum-mode t)
 (global-auto-revert-mode t)
 (setq-default indent-tabs-mode nil)
