@@ -8,7 +8,6 @@
       (lambda (file)
         (message ".>>>>>>>>>>>>>>>>loading... %s" file)
         (funcall load-file-fn file)))
-(load-file "~/tmp/test.el")
 ;;; begin hack
 (scroll-bar-mode -1)
 (dolist (hook '(emacs-lisp-mode-hook
