@@ -8,7 +8,7 @@ alias mv='mv -i'
 alias sudo='sudo '
 
 # Source global definitions
-if [ -f /etc/bashrc ]; then
+if [ -f /etc/bashrc -a "$0" = "/bin/bash" ]; then
 	. /etc/bashrc
 fi
 

@@ -70,8 +70,8 @@ alias sudo='sudo '
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Lines configured by zsh-newuser-install
-. /home/isaac/.dotfiles/.zsh_completion
-. /home/isaac/.dotfiles/.bashrc
+. $HOME/.dotfiles/.zsh_completion
+#. ${HOME}/.dotfiles/.bashrc
 #export JAVA_HOME=/opt/jdk1.7.0_40
 
 export PATH=$PATH:${HOME}/bin:/opt/node-v0.10.19-linux-x64/bin
