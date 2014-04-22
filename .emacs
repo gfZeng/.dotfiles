@@ -10,8 +10,11 @@
       (lambda (file)
         (message ".>>>>>>>>>>>>>>>>loading... %s" file)
         (funcall load-file-fn file)))
+
 ;;; begin hack
-(scroll-bar-mode -1)
+;(scroll-bar-mode -1)
+;(tool-bar-mode -1)
+;(menu-bar-mode -1)
 (dolist (hook '(emacs-lisp-mode-hook
                 clojure-mode-hook
                 python-mode-hook
