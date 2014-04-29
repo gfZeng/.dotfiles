@@ -19,6 +19,7 @@
                 clojure-mode-hook
                 python-mode-hook
                 erlang-mode-hook
+                js-mode-hook
                 javascript-mode-hook))
   (add-hook hook
             (lambda ()
