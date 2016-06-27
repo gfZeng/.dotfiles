@@ -150,3 +150,10 @@ au FileType ruby setl sw=2 sts=2 et
 
 set autochdir
 set hidden
+"inoremap <silent> <Esc> <C-O>:stopinsert<CR>
+inoremap <Esc> <Esc><Right>
+
+"let CursorColumnI = 0 "the cursor column position in INSERT
+"autocmd InsertEnter * let CursorColumnI = col('.')
+"autocmd CursorMovedI * let CursorColumnI = col('.')
+"autocmd InsertLeave * if col('.') != CursorColumnI | call cursor(0, col('.')+1) | endif

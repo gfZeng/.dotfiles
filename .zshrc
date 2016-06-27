@@ -54,6 +54,7 @@ promptinit
 
 #bindkey -v
 bindkey '\e.' insert-last-word
+bindkey '^y' insert-last-word
 bindkey '\e/' vi-history-search-backward
 bindkey '\em' copy-prev-shell-word
 bindkey '\el' clear-screen

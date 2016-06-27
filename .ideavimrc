@@ -48,3 +48,4 @@ nnoremap <silent> <Leader>sj  :action FileStructurePopup<CR>
 nnoremap <silent> <Leader>/   :action FindInPath<CR>
 nnoremap <silent> <Leader>rl  :action Refactorings.QuickListPopupAction<CR>
 nnoremap <silent> <Leader>gi  :action GotoImplementation<CR>
+inoremap <Esc> <Esc><Right>
