@@ -34,7 +34,6 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
-     nginx
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -83,6 +82,7 @@ values."
      rust
      html
      yaml
+     nginx
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -448,8 +448,11 @@ layers configuration. You are free to put any user code."
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (setq magit-push-always-verify nil)
-  (setq org-bullets-bullet-list '("☰" "☷" "⋗" "⇀"))
 
+  (add-to-load-path "~/.dotfiles/elisp/")
+  (if (display-graphic-p)
+      (setq org-bullets-bullet-list '("☰" "☷" "⋗" "⇀"))
+    (load "emoj-org-bullets"))
   (setq cider-default-repl-command "boot")
   (setq cider-boot-parameters "cider repl -s wait")
   (add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))
