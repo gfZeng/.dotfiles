@@ -39,8 +39,8 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     spacemacs-helm
-     spacemacs-ivy
+     helm
+     ivy
      (auto-completion :variables
                       auto-completion-return-key-behavior 'complete
                       auto-completion-tab-key-behavior 'cycle
@@ -390,8 +390,10 @@ layers configuration. You are free to put any user code."
     (define-key input-decode-map "\e[1;10B" [S-M-down])
     (define-key input-decode-map "\e[1;10C" [S-M-right])
     (define-key input-decode-map "\e[1;10D" [S-M-left]))
+
   (when (not (display-graphic-p)) ; cli mode
     (init-cli))
+
   (defadvice terminal-init-xterm (around map-S-escape-sequences activate)
     ;; defadvice needed so that it also works with emacsclient.
     (init-cli)
@@ -451,7 +453,7 @@ layers configuration. You are free to put any user code."
 
   (add-to-load-path "~/.dotfiles/elisp/")
   (if (display-graphic-p)
-      (setq org-bullets-bullet-list '("☰" "☷" "⋗" "⇀"))
+    (setq org-bullets-bullet-list '("☰" "☷" "■" "◆" "▲" "▶" "◉" "○" "✸" "✿" "⋗" "⇀"))
     (load "emoj-org-bullets"))
   (setq cider-default-repl-command "boot")
   (setq cider-boot-parameters "cider repl -s wait")
@@ -480,6 +482,15 @@ layers configuration. You are free to put any user code."
       (cond #'indent-cond)
       (or-join '(1 ((:defn)) nil))
       (not-join '(1 ((:defn)) nil))))
+
+  ;;; do not move to trash
+  (defun around-package-delete (f packages)
+    (let ((delete-by-moving-to-trash nil))
+      (f packages)))
+
+  (advice-add #'package-delete
+              :around
+              #'around-package-delete)
 
   (add-to-list 'auto-mode-alist '("\\.\\(ios\\|android\\).js\\'" . react-mode))
 

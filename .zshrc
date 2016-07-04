@@ -71,7 +71,6 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 alias vi='vim '
 alias sudo='sudo '
-# export MANPATH="/usr/local/man:$MANPATH"
 
 export EDITOR='vim'
 # # Preferred editor for local and remote sessions
@@ -92,10 +91,6 @@ export EDITOR='vim'
 #export JAVA_HOME=/opt/jdk1.7.0_40
 
 export PATH=$PATH:${HOME}/bin
-export PATH=$PATH:${HOME}/.gem/ruby/2.1.0/bin
-export PATH=$PATH:/opt/hadoop-1.2.1/bin
-export PATH=$PATH:/opt/local/mongodb/bin
-JYTHONPATH=$JYTHONPATH:/usr/lib/python2.7/site-packages
 alias jython='jython -Dpython.path=$JYTHONPATH '
 alias urlencode='python -c "import sys, urllib as ul; print(ul.quote_plus(sys.argv[1]))" '
 alias urldecode='python -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'
@@ -125,11 +120,6 @@ alias et='emacsclient -t '
 
 export KEYTIMEOUT=1
 setopt interactivecomments
-
-if [[ -d /opt/local/scala ]]; then
-    export SCALA_HOME=/opt/local/scala
-    export PATH=$PATH:$SCALA_HOME/bin:/opt/local/sbt/bin
-fi
 
 upper() {
     echo $1 | tr '[:lower:]' '[:upper:]'
