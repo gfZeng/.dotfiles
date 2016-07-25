@@ -2,6 +2,16 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
+;;; do not move to trash
+(defun around-package-delete (f package)
+  (let ((delete-by-moving-to-trash nil))
+    (message "~~~~~~~~~~~~~removing %s" package)
+    (funcall f package)))
+
+(advice-add #'package-delete
+            :around
+            #'around-package-delete)
+
 (defmacro comment (&rest body))
 
 (defun dotspacemacs/layers ()
@@ -47,6 +57,7 @@ values."
                       auto-completion-enable-sort-by-usage t
                       auto-completion-complete-with-key-sequence nil
                       auto-completion-private-snippets-directory nil)
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      osx
      better-defaults
      evil-cleverparens
@@ -123,7 +134,7 @@ values."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'vim
+   dotspacemacs-editing-style 'hybrid
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -317,8 +328,6 @@ in `dotspacemacs/user-config'."
    web-mode-code-indent-offset 2
    web-mode-attr-indent-offset 2
 
-   dash-helm-dash-docset-path "~/.docset"
-
    helm-dash-browser-func
    (lambda (url &rest args)
      (start-process (format "osascript -e 'open location \"%s\"'" url) nil
@@ -331,6 +340,7 @@ in `dotspacemacs/user-config'."
    cider-repl-history-file "~/.nrepl-history"
 
    js2-strict-trailing-comma-warning nil
+   ns-pop-up-frames nil
    )
   (with-eval-after-load 'web-mode
     (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
@@ -347,8 +357,14 @@ layers configuration. You are free to put any user code."
   (define-key evil-normal-state-map (kbd "M-.") nil)
   (define-key evil-normal-state-map (kbd "C-.") nil)
   (global-hl-line-mode -1)
+  (add-to-load-path "~/.dotfiles/elisp/")
+  (if (display-graphic-p)
+      (setq org-bullets-bullet-list '("☰" "☷" "■" "◆" "▲" "▶" "◉" "○" "✸" "✿" "⋗" "⇀"))
+    (load "emoj-org-bullets"))
+  (require 'osx-say)
   (spacemacs/set-leader-keys
-    "oy" #'youdao-dictionary-search-at-point+)
+    "oy" #'youdao-dictionary-search-at-point+
+    "os" #'osx-say)
   (when (display-graphic-p)
     (global-set-key (kbd "s-p") (kbd "M-p"))
     (global-set-key (kbd "s-n") (kbd "M-n"))
@@ -451,10 +467,6 @@ layers configuration. You are free to put any user code."
 
   (setq magit-push-always-verify nil)
 
-  (add-to-load-path "~/.dotfiles/elisp/")
-  (if (display-graphic-p)
-    (setq org-bullets-bullet-list '("☰" "☷" "■" "◆" "▲" "▶" "◉" "○" "✸" "✿" "⋗" "⇀"))
-    (load "emoj-org-bullets"))
   (setq cider-default-repl-command "boot")
   (setq cider-boot-parameters "cider repl -s wait")
   (add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))
@@ -483,16 +495,18 @@ layers configuration. You are free to put any user code."
       (or-join '(1 ((:defn)) nil))
       (not-join '(1 ((:defn)) nil))))
 
-  ;;; do not move to trash
-  (defun around-package-delete (f packages)
-    (let ((delete-by-moving-to-trash nil))
-      (f packages)))
-
-  (advice-add #'package-delete
-              :around
-              #'around-package-delete)
-
   (add-to-list 'auto-mode-alist '("\\.\\(ios\\|android\\).js\\'" . react-mode))
+
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (make-variable-buffer-local 'evil-snipe-aliases)
+              (push '(?: "def .+:") evil-snipe-aliases)))
+
+  (add-hook 'clojure-mode-hook
+            (lambda ()
+              (make-variable-buffer-local 'evil-snipe-aliases)
+              (push '(?: "\(def[^ ]+") evil-snipe-aliases)))
+
 
   (with-eval-after-load 'org
     (require 'ob-clojure)
