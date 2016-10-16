@@ -45,7 +45,7 @@ ZSH_THEME="isaac"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(osx vi-mode git python urltools lein brew rails gem bundler)
+plugins=(osx vi-mode git python urltools lein brew rails gem bundler docker)
 
 source $ZSH/oh-my-zsh.sh
 autoload -U compinit promptinit
@@ -66,8 +66,6 @@ bindkey -M vicmd 'v' visual-mode
 #bindkey '^j' down-history
 
 # User configuration
-
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 alias vi='vim '
 alias sudo='sudo '
@@ -90,8 +88,6 @@ export EDITOR='vim'
 #. ${HOME}/.dotfiles/.bashrc
 #export JAVA_HOME=/opt/jdk1.7.0_40
 
-export PATH=$PATH:${HOME}/bin
-alias jython='jython -Dpython.path=$JYTHONPATH '
 alias urlencode='python -c "import sys, urllib as ul; print(ul.quote_plus(sys.argv[1]))" '
 alias urldecode='python -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'
 
@@ -108,7 +104,6 @@ fi
 if [[ `uname` == 'Darwin' ]]; then
     export LANG="en_US.UTF-8"
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home"
-    export PATH=$PATH:"/opt/local/android-sdk/platform-tools"
 fi
 #alias e='emacs '
 alias enw='emacs -nw'
@@ -129,15 +124,12 @@ lower() {
     echo "$1" | tr '[:upper:]' '[:lower:]'
 }
 
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/isaac/.boot2docker/certs/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
-export GOPATH=$HOME/.go
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 PS1="$PS1"'$([ -n "$TMUX"  ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
-if which thefuck > /dev/null; then eval "$(thefuck --alias)"; fi
 
 if [[ -f ~/.private.env ]]; then
     source ~/.private.env
 fi
+if which thefuck > /dev/null; then eval "$(thefuck --alias)"; fi
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
