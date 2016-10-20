@@ -3,10 +3,10 @@
 ;; It must be stored in your home directory.
 
 ;;; do not move to trash
-(defun around-package-delete (f package)
+(defun around-package-delete (f package &optional force nosave)
   (let ((delete-by-moving-to-trash nil))
     (message "~~~~~~~~~~~~~removing %s" package)
-    (funcall f package)))
+    (funcall f package force nosave)))
 
 (advice-add #'package-delete
             :around
