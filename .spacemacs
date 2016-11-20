@@ -558,14 +558,6 @@ layers configuration. You are free to put any user code."
     (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
     (add-hook 'org-mode-hook 'spacemacs/toggle-fill-column-indicator-on))
   (global-set-key (kbd "M-s") #'evil-write)
-
-  (defun evil-paste-after-from-0 ()
-    (interactive)
-    (let ((evil-this-register ?0))
-      (call-interactively 'evil-paste-after)))
-
-  (define-key evil-visual-state-map "p" 'evil-paste-after-from-0)
-
   (use-package org-page
     ;; set for blog
     :init
@@ -584,6 +576,13 @@ layers configuration. You are free to put any user code."
       (add-hook 'blog-admin-backend-after-new-post-hook 'find-file)
       ;; (setq blog-admin-backend-org-page-config-file "/path/to/org-page/config.el") ;; if nil init.el is used
       ))
+
+  (defun evil-paste-after-from-0 ()
+    (interactive)
+    (let ((evil-this-register ?0))
+      (call-interactively 'evil-paste-after)))
+
+  (define-key evil-visual-state-map "p" 'evil-paste-after-from-0)
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
