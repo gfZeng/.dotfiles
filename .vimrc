@@ -34,7 +34,6 @@ EnsurePlugin 'applescript.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 EnsurePlugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
 EnsurePlugin 'L9'
 " Git plugin not hosted on GitHub
 " Plugin 'Command-T'
@@ -53,7 +52,6 @@ EnsurePlugin 'Shougo/neomru.vim'
 EnsurePlugin 'Shougo/vimproc.vim'
 EnsurePlugin 'dbakker/vim-projectroot'
 EnsurePlugin 'terryma/vim-multiple-cursors'
-EnsurePlugin 'jceb/vim-orgmode'
 EnsurePlugin 'tpope/vim-speeddating'
 EnsurePlugin 'christoomey/vim-tmux-navigator'
 EnsurePlugin 'vim-ruby/vim-ruby'
