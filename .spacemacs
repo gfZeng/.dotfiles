@@ -101,7 +101,12 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(org-page blog-admin osx-clipboard know-your-http-well vue-mode)
+   dotspacemacs-additional-packages '(org-page
+                                      blog-admin
+                                      osx-clipboard
+                                      know-your-http-well
+                                      vue-mode
+                                      visual-fill-column)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -186,7 +191,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Hack" ;"Source Code Pro"
-                               :size 12
+                               :size 10
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -374,7 +379,9 @@ in `dotspacemacs/user-config'."
    ns-pop-up-frames nil
    fcitx-active-evil-states '(insert emacs hybrid)
    projectile-enable-caching t
-   )
+   line-spacing 0.03
+   tags-add-tables nil
+   tags-revert-without-query t)
   (with-eval-after-load 'web-mode
     (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
     (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
@@ -385,6 +392,7 @@ in `dotspacemacs/user-config'."
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  (spaceline-toggle-minor-modes-off)
   (when (not (display-graphic-p))
     (setq linum-format "%4d\u2502 "))
   ;(global-linum-mode)
@@ -396,9 +404,6 @@ layers configuration. You are free to put any user code."
   (global-hl-line-mode -1)
   (add-to-load-path "~/.dotfiles/elisp/")
   (osx-clipboard-mode +1)
-  (if (display-graphic-p)
-      (setq org-bullets-bullet-list '("☰" "☷" "■" "◆" "▲" "▶" "◉" "○" "✸" "✿" "⋗" "⇀"))
-    (load "emoj-org-bullets"))
   (require 'osx-say)
   (spacemacs/set-leader-keys
     "oy" #'youdao-dictionary-search-at-point+
@@ -457,7 +462,7 @@ layers configuration. You are free to put any user code."
 
   (when (display-graphic-p)
     (when (spacemacs/system-is-mac)
-      (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 12 14)))
+      (spacemacs//set-monospaced-font "Hack" "Hiragino Sans GB" 10 12)))
 
   ;;; smartparens & paredit
   (with-eval-after-load 'smartparens
@@ -549,33 +554,12 @@ layers configuration. You are free to put any user code."
               (push '(?: "\(def[^ ]+") evil-snipe-aliases)))
 
   (add-hook 'dockerfile-mode-hook #'abbrev-mode)
-
-
   (with-eval-after-load 'org
-    (require 'ob-clojure)
-    (require 'ob-python)
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
-    (add-hook 'org-mode-hook 'spacemacs/toggle-auto-fill-mode-on)
-    (add-hook 'org-mode-hook 'spacemacs/toggle-fill-column-indicator-on))
+    (load "iz-org"))
+  (with-eval-after-load 'magit
+    (load "magit-arcanist"))
+  (load "my-private")
   (global-set-key (kbd "M-s") #'evil-write)
-  (use-package org-page
-    ;; set for blog
-    :init
-    (progn
-      (setq op/repository-directory "~/org/blog/")
-      (setq op/theme-root-directory (concat op/repository-directory "themes/"))
-      (setq op/site-domain "http://gfzeng.github.io/")
-      (setq op/personal-disqus-shortname "isaac-zeng")
-      (setq op/category-ignore-list '(".drafts" "themes"))
-      (require 'blog-admin)
-      (setq blog-admin-backend-type 'org-page)
-      (setq blog-admin-backend-path op/repository-directory)
-      (setq blog-admin-backend-new-post-in-drafts t)
-      (setq blog-admin-backend-new-post-with-same-name-dir t)
-      (setq blog-admin-backend-org-page-drafts ".drafts") ;; directory to save draft
-      (add-hook 'blog-admin-backend-after-new-post-hook 'find-file)
-      ;; (setq blog-admin-backend-org-page-config-file "/path/to/org-page/config.el") ;; if nil init.el is used
-      ))
 
   (defun evil-paste-after-from-0 ()
     (interactive)
@@ -593,7 +577,7 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (anaconda-mode pythonic org-page git mustache blog-admin ctable youdao-dictionary yapfify yaml-mode xterm-color ws-butler window-numbering which-key wgrep web-mode web-beautify vue-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient restart-emacs rbenv rake rainbow-delimiters racer quelpa pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode paradox pangu-spacing osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file ob-http nginx-mode neotree mwim multi-term move-text monokai-theme minitest markdown-toc magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl know-your-http-well js2-refactor js-doc ivy-hydra info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gmail-message-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md flyspell-correct-ivy flyspell-correct-helm flycheck-rust flycheck-pos-tip flx-ido find-by-pinyin-dired fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav edit-server dumb-jump dockerfile-mode docker diff-hl dash-at-point cython-mode counsel-projectile counsel-dash company-web company-tern company-statistics company-anaconda column-enforce-mode coffee-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu chruby cargo bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+    (paradox org-plus-contrib neotree macrostep lua-mode live-py-mode js2-refactor info+ hungry-delete hl-todo helm-make helm-company helm-ag git-timemachine gist flyspell-correct-ivy flyspell-correct-helm flyspell-correct flycheck-pos-tip eyebrowse expand-region evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-magit engine-mode emmet-mode dumb-jump docker diff-hl coffee-mode clj-refactor inflections cider spinner clojure-mode cargo aggressive-indent visual-fill-column fcitx pythonic org-page git mustache blog-admin ctable youdao-dictionary yapfify yaml-mode xterm-color ws-butler window-numbering which-key wgrep web-mode web-beautify vue-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient restart-emacs rbenv rake rainbow-delimiters racer quelpa pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pangu-spacing osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file ob-http nginx-mode mwim multi-term move-text minitest markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl know-your-http-well js-doc ivy-hydra indent-guide ido-vertical-mode hy-mode htmlize highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-css-scss helm-c-yasnippet google-translate golden-ratio gnuplot gmail-message-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-rust flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help elisp-slime-nav edit-server dockerfile-mode dash-at-point cython-mode counsel-projectile counsel-dash company-web company-tern company-statistics company-anaconda column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu chruby bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-automatically-star t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
