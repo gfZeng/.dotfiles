@@ -106,7 +106,8 @@ values."
                                       osx-clipboard
                                       know-your-http-well
                                       vue-mode
-                                      visual-fill-column)
+                                      visual-fill-column
+                                      evil-terminal-cursor-changer)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -260,7 +261,7 @@ values."
    ;; in all non-asynchronous sources. If set to `source', preserve individual
    ;; source settings. Else, disable fuzzy matching in all sources.
    ;; (default 'always)
-   dotspacemacs-helm-use-fuzzy 'always
+   dotspacemacs-helm-use-fuzzy 'source
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
    dotspacemacs-enable-paste-transient-state nil
@@ -347,6 +348,12 @@ It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
 
+  (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+  (add-to-list 'configuration-layer--elpa-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+  (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+  (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
+  (add-to-list 'package-pinned-packages '(inflections . "melpa-stable") t)
+
   (setq-default
    exec-path-from-shell-check-startup-files nil
    ;; exec-path-from-shell-arguments '("-l")
@@ -393,9 +400,16 @@ in `dotspacemacs/user-config'."
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
   (spaceline-toggle-minor-modes-off)
-  (when (not (display-graphic-p))
+  (unless (display-graphic-p)
+    (evil-terminal-cursor-changer-activate)
     (setq linum-format "%4d\u2502 "))
   ;(global-linum-mode)
+
+  (setq ivy-re-builders-alist
+        '((ivy-switch-buffer . ivy--regex-ignore-order)
+          (counsel-projectile-find-file . ivy--regex-ignore-order)
+          (t . ivy--regex-plus)))
+  (setq ivy-initial-inputs-alist nil)
 
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   (setq evil-move-cursor-back nil)
@@ -577,7 +591,7 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (paradox org-plus-contrib neotree macrostep lua-mode live-py-mode js2-refactor info+ hungry-delete hl-todo helm-make helm-company helm-ag git-timemachine gist flyspell-correct-ivy flyspell-correct-helm flyspell-correct flycheck-pos-tip eyebrowse expand-region evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-magit engine-mode emmet-mode dumb-jump docker diff-hl coffee-mode clj-refactor inflections cider spinner clojure-mode cargo aggressive-indent visual-fill-column fcitx pythonic org-page git mustache blog-admin ctable youdao-dictionary yapfify yaml-mode xterm-color ws-butler window-numbering which-key wgrep web-mode web-beautify vue-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient restart-emacs rbenv rake rainbow-delimiters racer quelpa pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pangu-spacing osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file ob-http nginx-mode mwim multi-term move-text minitest markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl know-your-http-well js-doc ivy-hydra indent-guide ido-vertical-mode hy-mode htmlize highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-css-scss helm-c-yasnippet google-translate golden-ratio gnuplot gmail-message-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-rust flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help elisp-slime-nav edit-server dockerfile-mode dash-at-point cython-mode counsel-projectile counsel-dash company-web company-tern company-statistics company-anaconda column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu chruby bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+    (edn peg queue evil-terminal-cursor-changer paradox org-plus-contrib neotree macrostep lua-mode live-py-mode js2-refactor info+ hungry-delete hl-todo helm-make helm-company helm-ag git-timemachine gist flyspell-correct-ivy flyspell-correct-helm flyspell-correct flycheck-pos-tip eyebrowse expand-region evil-surround evil-snipe evil-nerd-commenter evil-mc evil-matchit evil-magit engine-mode emmet-mode dumb-jump docker diff-hl coffee-mode clj-refactor inflections cider spinner clojure-mode cargo aggressive-indent visual-fill-column fcitx pythonic org-page git mustache blog-admin ctable youdao-dictionary yapfify yaml-mode xterm-color ws-butler window-numbering which-key wgrep web-mode web-beautify vue-mode volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit stickyfunc-enhance srefactor spacemacs-theme spaceline smex smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient restart-emacs rbenv rake rainbow-delimiters racer quelpa pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pangu-spacing osx-trash osx-dictionary osx-clipboard orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file ob-http nginx-mode mwim multi-term move-text minitest markdown-toc magit-gitflow magit-gh-pulls lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl know-your-http-well js-doc ivy-hydra indent-guide ido-vertical-mode hy-mode htmlize highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-css-scss helm-c-yasnippet google-translate golden-ratio gnuplot gmail-message-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flycheck-rust flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help elisp-slime-nav edit-server dockerfile-mode dash-at-point cython-mode counsel-projectile counsel-dash company-web company-tern company-statistics company-anaconda column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu chruby bundler auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-automatically-star t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

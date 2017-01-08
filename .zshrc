@@ -131,7 +131,8 @@ PS1="$PS1"'$([ -n "$TMUX"  ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr 
 if [[ -f ~/.private.env ]]; then
     source ~/.private.env
 fi
-if which thefuck > /dev/null; then eval "$(thefuck --alias)"; fi
+
+export NODE_PATH=/usr/local/lib/node_modules
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH

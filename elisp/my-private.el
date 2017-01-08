@@ -1,7 +1,7 @@
 (with-eval-after-load 'semantic
   (add-hook 'semantic-mode-hook
             (lambda ()
-              (dolist (x (default-value 'completion-at-point-functions))
+              (dolist (x completion-at-point-functions)
                 (when (string-prefix-p "semantic-" (symbol-name x))
                   (remove-hook 'completion-at-point-functions x))))))
 
