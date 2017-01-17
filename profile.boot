@@ -3,7 +3,8 @@
   (require 'boot.repl)
   (swap! @(resolve 'boot.repl/*default-dependencies*)
          concat '[[cider/cider-nrepl "0.14.0"]
-                  [refactor-nrepl "2.2.0"]])
+                  [refactor-nrepl "2.2.0"]
+                  [org.clojure/tools.namespace "0.2.11"]])
   (swap! @(resolve 'boot.repl/*default-middleware*)
          concat '[cider.nrepl/cider-middleware
                   refactor-nrepl.middleware/wrap-refactor])

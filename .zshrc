@@ -105,7 +105,6 @@ if [[ `uname` == 'Darwin' ]]; then
     export LANG="en_US.UTF-8"
     export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home"
 fi
-#alias e='emacs '
 alias enw='emacs -nw'
 alias e='emacsclient -a emacs-nw -t '
 alias et='emacsclient -t '
