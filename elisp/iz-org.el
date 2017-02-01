@@ -94,7 +94,8 @@
 
 (use-package org-page
   ;; set for blog
-  :init
+  :defer t
+  :config
   (progn
     (setq op/repository-directory "~/org/blog/")
     (setq op/theme-root-directory (concat op/repository-directory "themes/"))

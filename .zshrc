@@ -132,6 +132,6 @@ if [[ -f ~/.private.env ]]; then
 fi
 
 export NODE_PATH=/usr/local/lib/node_modules
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
