@@ -1,3 +1,22 @@
+
+(deftask huobi []
+  (merge-env!
+   :mirrors
+   {"maven-central" {:name "Internal nexus"
+                     :url  "http://nexus.huobidev.com:8081/repository/maven-public/"}
+    "clojars"       {:name         "Internal nexus"
+                     :url          "http://nexus.huobidev.com:8081/repository/clojars/"
+                     :repo-manager true}}
+   :repositories
+   [["snapshots" "http://nexus.huobidev.com:8081/repository/maven-snapshots/"]
+    ["releases"  "http://nexus.huobidev.com:8081/repository/maven-releases/"]])
+  identity)
+
+
+(deftask testing []
+  (merge-env! :source-paths #{"test"})
+  identity)
+
 (deftask cider "CIDER profile"
   []
   (require 'boot.repl)

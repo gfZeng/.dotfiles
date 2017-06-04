@@ -3,13 +3,8 @@
   (load "emoj-org-bullets"))
 (require 'ob-clojure)
 (require 'ob-python)
-(global-visual-fill-column-mode)
 (advice-add 'text-scale-adjust :after
             #'visual-fill-column-adjust)
-;; (setq-default visual-fill-column-center-text t)
-(add-hook 'org-mode-hook (lambda ()
-                           (visual-line-mode 1)
-                           (toggle-word-wrap nil)))
 
 (defun my-change-window-line-wrap ()
   (when (bound-and-true-p visual-line-mode)
@@ -19,8 +14,21 @@
                           standard-display-table)))
       (set-display-table-slot display-table 'wrap ?↩)
       (set-window-display-table (selected-window) display-table))))
-(add-hook 'window-configuration-change-hook 'my-change-window-line-wrap)
-;; (remove-hook 'window-configuration-change-hook 'my-change-window-line-wrap)
+;; (add-hook 'window-configuration-change-hook 'my-change-window-line-wrap)
+
+(define-minor-mode writing-mode
+  "for writing"
+  :lighter "" :keymap nil
+  (setq visual-fill-column-center-text t)
+  (set-display-table-slot buffer-display-table 'wrap ?\s)
+  (visual-fill-column-mode)
+  (visual-line-mode 1)
+  (toggle-word-wrap nil))
+
+(add-hook 'after-save-hook
+          (lambda ()
+            (when (bound-and-true-p writing-mode)
+                (writing-mode))))
 
 ;; http://stackoverflow.com/questions/20882935/how-to-move-between-visual-lines-and-move-past-newline-in-evil-mode
 ;; Make movement keys work like they should
@@ -111,6 +119,9 @@
     (add-hook 'blog-admin-backend-after-new-post-hook 'find-file)
     ;; (setq blog-admin-backend-org-page-config-file "/path/to/org-page/config.el") ;; if nil init.el is used
     ))
+
+(autoload 'op/do-publication "org-page" "org page" t nil)
+(autoload 'op/do-publication-and-preview-site "org-page" "org page" t nil)
 
 (defun org->remarkup (str)
   (->> str

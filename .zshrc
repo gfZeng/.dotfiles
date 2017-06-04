@@ -135,3 +135,5 @@ export NODE_PATH=/usr/local/lib/node_modules
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which cabal > /dev/null; then export PATH=$PATH:$HOME/.cabal/bin; fi
+if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi

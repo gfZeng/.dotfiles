@@ -16,7 +16,7 @@ function link()
     fi
 }
 
-link_files=('.bashrc' '.zshrc' '.tmux.conf' '.xinitrc' '.bash_profile' '.gvimrc' '.vim' '.vimrc' '.emacs' '.emacs.d' '.spacemacs')
+link_files=('.bashrc' '.zshrc' '.tmux.conf' '.xinitrc' '.bash_profile' '.emacs' '.emacs.d' '.spacemacs')
 
 for f in ${link_files[@]}
 do
