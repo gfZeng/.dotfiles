@@ -69,6 +69,7 @@ bindkey -M vicmd 'v' visual-mode
 
 alias vi='vim '
 alias sudo='sudo '
+alias sudo='xargs '
 
 export EDITOR='vim'
 # # Preferred editor for local and remote sessions
@@ -86,7 +87,6 @@ export EDITOR='vim'
 
 # Lines configured by zsh-newuser-install
 #. ${HOME}/.dotfiles/.bashrc
-#export JAVA_HOME=/opt/jdk1.7.0_40
 
 alias urlencode='python -c "import sys, urllib as ul; print(ul.quote_plus(sys.argv[1]))" '
 alias urldecode='python -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'
@@ -103,12 +103,10 @@ fi
 
 if [[ `uname` == 'Darwin' ]]; then
     export LANG="en_US.UTF-8"
-    export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home"
 fi
 alias enw='emacs -nw'
-alias e='emacsclient -a emacs-nw -t '
+alias e='TERM=xterm-256color emacsclient -a emacs-nw -t '
 alias et='emacsclient -t '
-#:${JAVA_HOME}/bin
 # End of lines configured by zsh-newuser-install
 
 
@@ -131,9 +129,9 @@ if [[ -f ~/.private.env ]]; then
     source ~/.private.env
 fi
 
-export NODE_PATH=/usr/local/lib/node_modules
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which cabal > /dev/null; then export PATH=$PATH:$HOME/.cabal/bin; fi
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

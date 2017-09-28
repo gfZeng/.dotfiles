@@ -6,6 +6,14 @@
 (advice-add 'text-scale-adjust :after
             #'visual-fill-column-adjust)
 
+(advice-add 'rename-file :around
+            (lambda (f from to &optional opt)
+              (let ((buffer (get-buffer from)))
+                (funcall f from to opt)
+                (when buffer
+                  (with-current-buffer buffer
+                    (rename-buffer to))))))
+
 (defun my-change-window-line-wrap ()
   (when (bound-and-true-p visual-line-mode)
     (let ((display-table (or
@@ -19,6 +27,7 @@
 (define-minor-mode writing-mode
   "for writing"
   :lighter "" :keymap nil
+  (require 'org-page)
   (setq visual-fill-column-center-text t)
   (set-display-table-slot buffer-display-table 'wrap ?\s)
   (visual-fill-column-mode)
@@ -107,8 +116,11 @@
   (progn
     (setq op/repository-directory "~/org/blog/")
     (setq op/theme-root-directory (concat op/repository-directory "themes/"))
+    (setq op/site-main-title "没事瞎思考")
+    (setq op/site-sub-title "没事瞎思考")
     (setq op/site-domain "http://gfzeng.github.io/")
     (setq op/personal-disqus-shortname "isaac-zeng")
+    (setq op/personal-github-link "https://github.com/gfZeng")
     (setq op/category-ignore-list '(".drafts" "themes"))
     (require 'blog-admin)
     (setq blog-admin-backend-type 'org-page)

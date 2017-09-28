@@ -52,3 +52,5 @@ alias emacs='LC_CTYPE=zh_CN.UTF-8 emacs '
 alias urlencode='python2 -c "import sys, urllib as ul; print(ul.quote_plus(sys.argv[1]))" '
 alias urldecode='python2 -c "import sys, urllib as ul; print(ul.unquote_plus(sys.argv[1]))"'
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

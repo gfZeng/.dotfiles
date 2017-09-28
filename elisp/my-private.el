@@ -55,25 +55,28 @@ Start inf-clojure for clojurescript
               (setq-local inf-clojure-program "lumo")
               (inf-clojure-minor-mode))))
 
+(defun disable-ctrl-jk-for-history (mode-map)
+  (evil-define-key 'insert mode-map
+    (kbd "C-k") nil
+    (kbd "C-j") nil)
+  (evil-define-key 'normal mode-map
+    (kbd "C-k") nil
+    (kbd "C-j") nil))
+
 (with-eval-after-load 'inf-clojure
   (add-hook 'inf-clojure-mode-hook
             (lambda ()
-              (evil-define-key 'insert inf-clojure-mode-map
-                (kbd "C-k") nil
-                (kbd "C-j") nil)
-              (evil-define-key 'normal inf-clojure-mode-map
-                (kbd "C-k") nil
-                (kbd "C-j") nil))))
+              (disable-ctrl-jk-for-history inf-clojure-mode-map))))
 
 (with-eval-after-load 'python
   (add-hook 'inferior-python-mode-hook
             (lambda ()
-              (evil-define-key 'insert inferior-python-mode-map
-                (kbd "C-k") nil
-                (kbd "C-j") nil)
-              (evil-define-key 'normal inferior-python-mode-map
-                (kbd "C-k") nil
-                (kbd "C-j") nil))))
+              (disable-ctrl-jk-for-history inferior-python-mode-map))))
+
+(with-eval-after-load 'geiser-repl
+  (add-hook 'geiser-repl-mode-hook
+            (lambda ()
+              (disable-ctrl-jk-for-history 'geiser-repl-mode-map))))
 
 (defun lumo-cljs ()
   (interactive)

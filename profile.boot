@@ -1,4 +1,8 @@
 
+(require '[clojure.java.io :as io]
+         '[clojure.walk :as walk]
+         '[clojure.string :as str])
+
 (deftask huobi []
   (merge-env!
    :mirrors
@@ -12,6 +16,63 @@
     ["releases"  "http://nexus.huobidev.com:8081/repository/maven-releases/"]])
   identity)
 
+(defn- unquote-project
+  "Inside defproject forms, unquoting (~) allows for arbitrary evaluation."
+  [args]
+  (walk/walk (fn [item]
+               (cond (and (seq? item) (= `unquote (first item))) (second item)
+                 ;; needed if we want fn literals preserved
+                 (or (seq? item) (symbol? item)) (list 'quote item)
+                 :else (let [result (unquote-project item)]
+                         ;; clojure.walk strips metadata
+                         (if-let [m (meta item)]
+                           (with-meta result m)
+                           result))))
+             identity
+             args))
+
+(defmacro defproject
+  "The project.clj file must either def a project map or call this macro.
+  See `lein help sample` to see what arguments it accepts."
+  [project-name version & args]
+  `(let [m# ~(unquote-project (apply array-map args))]
+     (def ~'project
+       m#)))
+
+(def NS (ns-name *ns*))
+
+(def head (pr-str `(ns lein.project
+                     (:refer ~NS :only [~'defproject]))))
+
+(deftask from-lein []
+  (->> (slurp "project.clj")
+       (str head "\n")
+       (load-string))
+  (let [{:as   project
+         :keys [mirrors repositories dependencies main]}
+        (var-get (resolve 'lein.project/project))]
+    (merge-env!
+     :mirrors      (clojure.set/rename-keys
+                    mirrors
+                    {"central" "maven-central"})
+     :repositories repositories
+     :source-paths (set (concat (:source-paths project ["src"])
+                                (:test-paths project ["test"])))
+     :resource-paths (set (:resource-paths project ["resources"]))
+     :dependencies dependencies
+     :lein/main    main))
+  identity)
+
+(deftask RUN []
+  (with-pre-wrap fileset
+    (let [args        (rest *args*)
+          method      (or (first *args*)
+                          (str (get-env :lein/main)))
+          [ns method] (map symbol (str/split method #"/"))
+          method      (or method '-main)]
+      (require ns)
+      (apply (ns-resolve ns method) args))
+    identity))
 
 (deftask testing []
   (merge-env! :source-paths #{"test"})
