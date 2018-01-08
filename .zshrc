@@ -45,7 +45,7 @@ ZSH_THEME="isaac"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(osx vi-mode git python urltools lein brew rails gem bundler docker docker-compose arcanist fasd)
+plugins=(osx vi-mode git python urltools lein brew bundler docker docker-compose arcanist fasd)
 
 source $ZSH/oh-my-zsh.sh
 autoload -U compinit promptinit
@@ -69,7 +69,7 @@ bindkey -M vicmd 'v' visual-mode
 
 alias vi='vim '
 alias sudo='sudo '
-alias sudo='xargs '
+alias xargs='xargs '
 
 export EDITOR='vim'
 # # Preferred editor for local and remote sessions
