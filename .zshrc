@@ -104,8 +104,17 @@ fi
 if [[ `uname` == 'Darwin' ]]; then
     export LANG="en_US.UTF-8"
 fi
+
+EMACS_NW=$HOME/.__emacs-nw
+if [ ! -x $EMACS_NW ]; then
+    cat <<EOF >> $EMACS_NW
+#!/usr/bin/env bash
+exec emacs -nw "\$@"
+EOF
+    chmod +x $EMACS_NW
+fi
 alias enw='emacs -nw'
-alias e='TERM=xterm-256color emacsclient -a emacs-nw -t '
+alias e="TERM=xterm-256color emacsclient -a $EMACS_NW -t "
 alias et='emacsclient -t '
 # End of lines configured by zsh-newuser-install
 
