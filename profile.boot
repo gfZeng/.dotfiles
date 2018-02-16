@@ -83,12 +83,13 @@
   []
   (require 'boot.repl)
   (swap! @(resolve 'boot.repl/*default-dependencies*)
-         concat '[[cider/cider-nrepl "0.15.1"]
-                  [refactor-nrepl "2.2.0"]
+         concat '[[cider/cider-nrepl "0.16.0"]
+                  ;[refactor-nrepl "2.3.1"]
                   [org.clojure/tools.namespace "0.2.11"]])
   (swap! @(resolve 'boot.repl/*default-middleware*)
          concat '[cider.nrepl/cider-middleware
-                  refactor-nrepl.middleware/wrap-refactor])
+                  ;refactor-nrepl.middleware/wrap-refactor
+                  ])
   identity)
 
 (deftask light "Light Table InstaREPL support"
