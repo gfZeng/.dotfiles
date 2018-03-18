@@ -64,6 +64,13 @@
      :lein/main    main))
   identity)
 
+(deftask test []
+  (merge-env!
+   :dependencies '[[adzerk/boot-test "RELEASE"]]
+   :source-paths (get-env :test-paths #{"test"}))
+  (require 'adzerk.boot-test)
+  (apply (resolve 'adzerk.boot-test/test) *args*))
+
 (deftask run []
   (let [args        (rest *args*)
         method      (or (first *args*)
