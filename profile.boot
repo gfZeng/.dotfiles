@@ -65,18 +65,13 @@
   identity)
 
 (deftask RUN []
-  (with-pre-wrap fileset
-    (let [args        (rest *args*)
-          method      (or (first *args*)
-                          (str (get-env :lein/main)))
-          [ns method] (map symbol (str/split method #"/"))
-          method      (or method '-main)]
-      (require ns)
-      (apply (ns-resolve ns method) args))
-    identity))
-
-(deftask testing []
-  (merge-env! :source-paths #{"test"})
+  (let [args        (rest *args*)
+        method      (or (first *args*)
+                        (str (get-env :lein/main)))
+        [ns method] (map symbol (str/split method #"/"))
+        method      (or method '-main)]
+    (require ns)
+    (apply (ns-resolve ns method) args))
   identity)
 
 (deftask cider "CIDER profile"
