@@ -64,7 +64,7 @@
      :lein/main    main))
   identity)
 
-(deftask RUN []
+(deftask run []
   (let [args        (rest *args*)
         method      (or (first *args*)
                         (str (get-env :lein/main)))
