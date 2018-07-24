@@ -3,18 +3,6 @@
          '[clojure.walk :as walk]
          '[clojure.string :as str])
 
-(deftask huobi []
-  (merge-env!
-   :mirrors
-   {"maven-central" {:name "Internal nexus"
-                     :url  "http://nexus.huobidev.com:8081/repository/maven-public/"}
-    "clojars"       {:name         "Internal nexus"
-                     :url          "http://nexus.huobidev.com:8081/repository/clojars/"
-                     :repo-manager true}}
-   :repositories
-   [["snapshots" "http://nexus.huobidev.com:8081/repository/maven-snapshots/"]
-    ["releases"  "http://nexus.huobidev.com:8081/repository/maven-releases/"]])
-  identity)
 
 (defn- unquote-project
   "Inside defproject forms, unquoting (~) allows for arbitrary evaluation."
@@ -76,14 +64,15 @@
   (apply (resolve 'adzerk.boot-test/test) *args*))
 
 (deftask run []
-  (let [args        (rest *args*)
-        method      (or (first *args*)
-                        (str (get-env :lein/main)))
-        [ns method] (map symbol (str/split method #"/"))
-        method      (or method '-main)]
-    (require ns)
-    (apply (ns-resolve ns method) args))
-  identity)
+  (with-pre-wrap fileset
+    (let [args        (rest *args*)
+          method      (or (first *args*)
+                          (str (get-env :lein/main)))
+          [ns method] (map symbol (str/split method #"/"))
+          method      (or method '-main)]
+      (require ns)
+      (apply (ns-resolve ns method) args))
+    fileset))
 
 (deftask cider "CIDER profile"
   []
