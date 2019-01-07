@@ -51,3 +51,5 @@ nnoremap <silent> <Leader>gi  :action GotoImplementation<CR>
 inoremap <Esc>    <Esc><Right>
 inoremap <C-F>    <Right>
 inoremap <C-B>    <Left>
+
+set keep-english-in-norma

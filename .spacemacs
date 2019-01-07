@@ -77,12 +77,7 @@ values."
      version-control
      search-engine
      restclient
-     (chinese :variables
-              chinese-default-input-method nil
-              chinese-enable-fcitx t
-              chinese-enable-youdao-dict t)
-
-     (clojure :variables clojure-enable-fancify-symbols t)
+     clojure
      (scheme  :variables
               geiser-chez-binary "chez"
               scheme-program-name "chez")
@@ -99,6 +94,11 @@ values."
      nginx
      docker
      lua
+     sql
+     (chinese :variables
+              chinese-default-input-method nil
+              chinese-enable-fcitx t
+              chinese-enable-youdao-dict t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -109,11 +109,12 @@ values."
                                       know-your-http-well
                                       visual-fill-column
                                       evil-terminal-cursor-changer
-                                      systemd)
+                                      systemd
+                                      sqlup-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(pbcopy ac-ispell)
+   dotspacemacs-excluded-packages '(pbcopy)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -187,7 +188,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Ubuntu Mono" ;"Source Code Pro"
+   dotspacemacs-default-font '("Source Code Pro" ;"Ubuntu Mono"
                                :size 16
                                :weight normal
                                :width normal
@@ -471,10 +472,6 @@ layers configuration. You are free to put any user code."
 
   (advice-add #'terminal-init-xterm :before #'init-cli)
 
-  (when (display-graphic-p)
-    (when (spacemacs/system-is-mac)
-      (spacemacs//set-monospaced-font "Ubuntu Mono" "Hiragino Sans GB" 12 14)))
-
   ;;; smartparens & paredit
   (with-eval-after-load 'smartparens
     (message "binding for smartparens")
@@ -523,9 +520,8 @@ layers configuration. You are free to put any user code."
 
   (setq magit-push-always-verify nil)
 
-  (setq cider-default-repl-command "boot")
-  (setq cider-boot-parameters "cider repl -s wait")
-  (add-to-list 'magic-mode-alist '(".* boot" . clojure-mode))
+  (setq cider-default-repl-command "clojure")
+  (setq cider-boot-parameters "-A:compile:cider -J-client -i ~/.clojure/cider-init.clj")
   (defun indent-cond (indent-point state)
     (goto-char (elt state 1))
     (let ((pos -1)
@@ -582,6 +578,7 @@ layers configuration. You are free to put any user code."
   (define-key evil-visual-state-map "p" 'evil-paste-after-from-0)
   (evil-cp--enable-surround-operators)
   )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -590,7 +587,8 @@ layers configuration. You are free to put any user code."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (powerline org-category-capture alert htmlize projectile flycheck json-mode diminish ghc inflections multiple-cursors paredit seq queue clojure-mode epl rust-mode ctable bind-key packed anaconda-mode pythonic f avy inf-ruby haskell-mode dash-functional tern company highlight iedit smartparens evil goto-chg undo-tree pinyinlib flyspell-correct magit magit-popup git-commit ghub let-alist with-editor gh marshal ht markdown-mode yasnippet skewer-mode js2-mode simple-httpd hydra helm helm-core async restclient haml-mode s names chinese-word-at-point org-mime solarized-theme cider systemd graphviz-dot-mode geiser git mustache org-plus-contrib youdao-dictionary yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights visual-fill-column vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit spaceline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient-helm restart-emacs rbenv rake rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode paradox pangu-spacing osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-page org-download org-bullets open-junk-file ob-restclient ob-http nginx-mode neotree mwim multi-term move-text mmm-mode minitest markdown-toc magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc intero info+ indent-guide hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gmail-message-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gist gh-md fuzzy flyspell-correct-helm flymd flycheck-rust flycheck-pos-tip flycheck-haskell flx-ido find-by-pinyin-dired fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-terminal-cursor-changer evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav edit-server dumb-jump dockerfile-mode docker diff-hl dash-at-point cython-mode company-web company-tern company-statistics company-restclient company-ghci company-ghc company-cabal company-anaconda column-enforce-mode coffee-mode cmm-mode clojure-snippets clj-refactor clean-aindent-mode cider-eval-sexp-fu chruby cargo bundler blog-admin auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell))))
+    (youdao-dictionary chinese-word-at-point pangu-spacing find-by-pinyin-dired fcitx ace-pinyin pinyinlib yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights visual-fill-column vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit systemd sqlup-mode sql-indent spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient-helm restart-emacs rbenv rake rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-page git mustache org-mime org-download org-bullets open-junk-file ob-restclient ob-http nginx-mode neotree mwim multi-term move-text mmm-mode minitest markdown-toc magit-gitflow magit-gh-pulls macrostep lua-mode lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint launchctl js2-refactor js2-mode js-doc intero indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-hoogle helm-gitignore request helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode graphviz-dot-mode google-translate golden-ratio go-guru go-eldoc gnuplot gmail-message-mode ham-mode html-to-markdown gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gist gh marshal logito pcache ht gh-md geiser fuzzy flyspell-correct-helm flyspell-correct flymd flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck-gometalinter flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-terminal-cursor-changer evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub treepy graphql with-editor evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-cleverparens smartparens evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help engine-mode emmet-mode elisp-slime-nav edit-server dumb-jump dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl dash-at-point cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-restclient restclient know-your-http-well company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda company column-enforce-mode coffee-mode cmm-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman spinner queue pkg-info clojure-mode epl chruby cargo markdown-mode rust-mode bundler inf-ruby blog-admin names ctable bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed anaconda-mode pythonic f s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup solarized-theme dash))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

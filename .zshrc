@@ -70,6 +70,7 @@ bindkey -M vicmd 'v' visual-mode
 alias vi='vim '
 alias sudo='sudo '
 alias xargs='xargs '
+alias ssh='TERM=xterm ssh'
 
 export EDITOR='vim'
 # # Preferred editor for local and remote sessions
@@ -139,6 +140,12 @@ if [[ -f ~/.private.env ]]; then
 fi
 
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export GOPATH=$HOME/go
+GOBIN=${GOPATH:-$HOME/go}/bin
+if [ -d $GOBIN ]; then
+   export PATH=$PATH:$GOBIN
+fi
+
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi

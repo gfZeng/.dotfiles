@@ -207,6 +207,23 @@ Start inf-clojure for clojurescript
     (evil-define-key 'normal evil-cleverparens-mode-map (kbd "M-]") nil)
     (define-key smartparens-mode-map (kbd "M-s") nil)))
 
+(use-package sqlup-mode
+  :defer t
+  :init
+  (progn
+    ;; Capitalize keywords in SQL mode
+    (add-hook 'sql-mode-hook 'sqlup-mode)
+    ;; Capitalize keywords in an interactive session (e.g. psql)
+    (add-hook 'sql-interactive-mode-hook 'sqlup-mode)
+    ;; Set a global keyword to use sqlup on a region
+    ;; (global-set-key (kbd "C-c u") 'sqlup-capitalize-keywords-in-region)
+    ))
+
+(use-package sql-indent
+  :defer t
+  :init
+  (add-hook 'sql-mode-hook 'sqlind-minor-mode))
+
 (if (display-graphic-p)
     (when (custom-theme-p 'spacemacs-dark)
       (custom-theme-set-faces 'spacemacs-dark '(default ((t (:background "#300a24"))))))
