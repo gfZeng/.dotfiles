@@ -7,53 +7,15 @@
                 (when (string-prefix-p "semantic-" (symbol-name x))
                   (remove-hook 'completion-at-point-functions x))))))
 
-(comment
- (with-eval-after-load 'projectile
-   (add-hook 'after-save-hook
-             (lambda ()
-               (when (projectile-project-p)
-                 (when (file-exists-p (concat (projectile-project-root) "TAGS"))
-                   (async-start (projectile-regenerate-tags))))))))
-
-
-(use-package helm-dash
-  :defer t
-  :config
-  (defun helm-dash--candidate (docset row)
-    "Return a list extracting info from DOCSET and ROW to build a helm candidate.
-First element is the display message of the candidate, rest is used to build
-candidate opts."
-    (cons (format-spec "%d %n \t (%t \t %s)"
-                       (list (cons ?d (car docset))
-                             (cons ?n (cadr row))
-                             (cons ?t (car row))
-                             (cons ?s (-> (caddr row)
-                                          (split-string "/")
-                                          (car)))))
-          (list (car docset) row))))
+(defun tmux-command (direction)
+  (shell-command-to-string
+   (concat "tmux list-panes -F '#F' |grep -q Z || tmux select-pane -"
+           (tmux-direction direction))))
 
 (unless (display-graphic-p)
   (xterm-mouse-mode -1)
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-
-(autoload 'inf-clojure-minor-mode "inf-clojure" "\
-Major mode for editing Clojure Script code.
-
-\\{inf-clojure-mode-map}
-
-\(fn)" t nil)
-
-(autoload 'inf-clojure "inf-clojure" "\
-Start inf-clojure for clojurescript
-
-\(fn)" t nil)
-
-(add-hook 'clojurescript-mode-hook
-          (lambda ()
-            (when (file-exists-p (concat (projectile-project-root) "package.json"))
-              (setq-local inf-clojure-program "lumo")
-              (inf-clojure-minor-mode))))
 
 (defun disable-ctrl-jk-for-history (mode-map)
   (evil-define-key 'insert mode-map
@@ -63,29 +25,6 @@ Start inf-clojure for clojurescript
     (kbd "C-k") nil
     (kbd "C-j") nil))
 
-(with-eval-after-load 'inf-clojure
-  (add-hook 'inf-clojure-mode-hook
-            (lambda ()
-              (disable-ctrl-jk-for-history inf-clojure-mode-map))))
-
-(with-eval-after-load 'python
-  (add-hook 'inferior-python-mode-hook
-            (lambda ()
-              (disable-ctrl-jk-for-history inferior-python-mode-map))))
-
-(with-eval-after-load 'geiser-repl
-  (add-hook 'geiser-repl-mode-hook
-            (lambda ()
-              (disable-ctrl-jk-for-history 'geiser-repl-mode-map))))
-
-(defun lumo-cljs ()
-  (interactive)
-  (inf-clojure "lumo"))
-
-(defun lumo-cljs-connect (host port)
-  (interactive (list (read-string "Host: " "127.0.0.1")
-                     (read-string "Port: " "5555")))
-  (inf-clojure (concat "telnet " host " " port)))
 
 
 (use-package markdown-mode
@@ -164,20 +103,6 @@ Start inf-clojure for clojurescript
                 (unless (display-graphic-p)
                   (funcall f direction)))))
 
-
-(use-package haskell
-  :defer t
-  :config
-  (progn
-    (defun haskell-indentation-advice ()
-      (when (and (< 1 (line-number-at-pos))
-                 (save-excursion
-                   (forward-line -1)
-                   (string= "" (s-trim (buffer-substring (line-beginning-position) (line-end-position))))))
-        (delete-region (line-beginning-position) (point))))
-
-    (advice-add 'haskell-indentation-newline-and-indent
-                :after 'haskell-indentation-advice)))
 
 
 (when (and (fboundp 'make-thread)

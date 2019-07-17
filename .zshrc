@@ -48,12 +48,14 @@ fi
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(osx vi-mode git python urltools lein brew bundler docker docker-compose arcanist fasd)
+plugins=(osx vi-mode git python urltools lein brew)
 
 source $ZSH/oh-my-zsh.sh
 autoload -U compinit promptinit
 compinit
 promptinit
+
+# End of lines configured by zsh-newuser-install
 
 #bindkey -v
 bindkey '\e.' insert-last-word
@@ -109,19 +111,7 @@ if [[ `uname` == 'Darwin' ]]; then
     export LANG="en_US.UTF-8"
 fi
 
-EMACS_NW=$HOME/.__emacs-nw
-if [ ! -x $EMACS_NW ]; then
-    cat <<EOF >> $EMACS_NW
-#!/usr/bin/env bash
-exec emacs -nw "\$@"
-EOF
-    chmod +x $EMACS_NW
-fi
-alias enw='emacs -nw'
-alias e="TERM=xterm-256color emacsclient -a $EMACS_NW -t "
-alias et='emacsclient -t '
-# End of lines configured by zsh-newuser-install
-
+alias e="TERM=xterm-256color emacsclient -a emacs --tty "
 
 export KEYTIMEOUT=1
 setopt interactivecomments
@@ -138,19 +128,45 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 
 PS1="$PS1"'$([ -n "$TMUX"  ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
-if [[ -f ~/.private.env ]]; then
-    source ~/.private.env
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+
+## Begin Python
+if command -v python > /dev/null; then
+    export PATH=$PATH:"`python -m site --user-base`/bin"
+    export PYTHONPATH="`python -m site --user-site`"
 fi
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export GOPATH=$HOME/go
-GOBIN=${GOPATH:-$HOME/go}/bin
-if [ -d $GOBIN ]; then
-   export PATH=$PATH:$GOBIN
+if command -v pip > /dev/null; then
+    function pip() {
+        local opts=()
+        local package=""
+        while [ $# -gt 0 ]; do
+            case "$1" in
+                --save|-s)
+                    package="$2"
+                    if [[ $package ==  -* ]]; then
+                        echo "invalid package $package"
+                        return 1
+                    fi
+                    shift
+                    ;;
+                *)
+                    opts+=("$1")
+                    shift
+                    ;;
+            esac
+        done
+        command pip "${opts[@]}"
+        if [ ! "$package" = "" ]; then
+            command pip freeze |grep "$package" >> requirements.txt
+        fi
+    }
 fi
+
+## End Python
+
 
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
