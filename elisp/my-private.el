@@ -31,6 +31,8 @@
   :defer t
   :config
   (progn
+    (set-fill-column 80)
+    (auto-fill-mode)
     (require 'mmm-auto)
     (mmm-add-classes
      '((markdown-clojure

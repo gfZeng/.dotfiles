@@ -48,7 +48,7 @@ fi
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(osx vi-mode git python urltools lein brew)
+plugins=(osx vi-mode git python urltools)
 
 source $ZSH/oh-my-zsh.sh
 autoload -U compinit promptinit
@@ -76,6 +76,7 @@ alias vi='vim '
 alias sudo='sudo '
 alias xargs='xargs '
 alias ssh='TERM=xterm ssh'
+alias rg='rg -S'
 
 export EDITOR='vim'
 # # Preferred editor for local and remote sessions
@@ -170,4 +171,3 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-:
