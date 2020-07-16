@@ -1,0 +1,44 @@
+"*":
+  "autocomplete-plus": {}
+  core:
+    disabledPackages: [
+      "markdown-preview"
+    ]
+    packagesWithKeymapsDisabled: [
+      "autocomplete-plus"
+    ]
+    telemetryConsent: "no"
+    themes: [
+      "atom-light-ui"
+      "one-light-syntax"
+    ]
+  editor:
+    fontFamily: "Monaco, Menlo, Consolas, DejaVu Sans Mono, monospace"
+    fontSize: 13
+    scrollPastEnd: true
+  "exception-reporting":
+    userId: "e240b9a5-b395-425e-9af8-38d07fb7f00f"
+  "julia-client":
+    currentVersion: "0.12.5"
+    firstBoot: false
+    uiOptions:
+      enableMenu: true
+      enableToolBar: true
+  "tool-bar":
+    position: "Left"
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  "uber-juno":
+    disable: true
+  "vim-mode-plus":
+    autoDisableInputMethodWhenLeavingInsertMode: true
+    ignoreCaseForFind: true
+    ignoreCaseForSearch: true
+    ignoreCaseForSearchCurrentWord: true
+    keymapYToYankToLastCharacterOfLine: true
+    setCursorToStartOfChangeOnUndoRedo: true
+    useSmartcaseForFind: true
+    useSmartcaseForSearch: true
+    useSmartcaseForSearchCurrentWord: true
+  welcome:
+    showOnStartup: false

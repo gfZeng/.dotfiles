@@ -48,7 +48,7 @@ fi
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(osx vi-mode git python urltools)
+plugins=(osx git python urltools)
 
 source $ZSH/oh-my-zsh.sh
 autoload -U compinit promptinit
@@ -58,15 +58,15 @@ promptinit
 # End of lines configured by zsh-newuser-install
 
 #bindkey -v
-bindkey '\e.' insert-last-word
-bindkey '^y' insert-last-word
-bindkey '\e/' vi-history-search-backward
-bindkey '\em' copy-prev-shell-word
-bindkey '\el' clear-screen
-bindkey -a 'u' undo
-bindkey -a '^R' redo
-bindkey '^E' edit-command-line
-bindkey -M vicmd 'v' visual-mode
+#bindkey '\e.' insert-last-word
+#bindkey '^y' insert-last-word
+#bindkey '\e/' vi-history-search-backward
+#bindkey '\em' copy-prev-shell-word
+#bindkey '\el' clear-screen
+#bindkey -a 'u' undo
+#bindkey -a '^R' redo
+#bindkey '^E' edit-command-line
+#bindkey -M vicmd 'v' visual-mode
 #bindkey '^k' up-history
 #bindkey '^j' down-history
 
@@ -132,9 +132,9 @@ PS1="$PS1"'$([ -n "$TMUX"  ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr 
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 ## Begin Python
-if command -v python > /dev/null; then
-    export PATH=$PATH:"`python -m site --user-base`/bin"
-    export PYTHONPATH="`python -m site --user-site`"
+if command -v python3 > /dev/null; then
+    export PYTHONPATH="`python3 -m site --user-site`"
+    export PATH=$PATH:"`python3 -m site --user-base`"/bin
 fi
 
 if command -v pip > /dev/null; then
@@ -171,3 +171,5 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -d ~/.julia/bin ] && export PATH=$PATH:~/.julia/bin
+[ -f /usr/local/etc/profile.d/z.sh ] && source /usr/local/etc/profile.d/z.sh
