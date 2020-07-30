@@ -3,6 +3,7 @@
   core:
     disabledPackages: [
       "markdown-preview"
+      "linter-julia"
     ]
     packagesWithKeymapsDisabled: [
       "autocomplete-plus"
@@ -23,9 +24,11 @@
     firstBoot: false
     uiOptions:
       enableMenu: true
-      enableToolBar: true
+  "linter-ui-default":
+    showPanel: true
   "tool-bar":
-    position: "Left"
+    iconSize: "21px"
+    position: "Top"
   "tree-view":
     hideVcsIgnoredFiles: true
   "uber-juno":
