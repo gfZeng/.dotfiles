@@ -24,8 +24,7 @@
     firstBoot: false
     uiOptions:
       enableMenu: true
-  "linter-ui-default":
-    showPanel: true
+  "linter-ui-default": {}
   "tool-bar":
     iconSize: "21px"
     position: "Top"

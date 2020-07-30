@@ -703,7 +703,6 @@ before packages are loaded."
             (lambda ()
               (sp-pair "`" nil :actions :rem)))
   (load "my-private")
-  (load "im-select")
   (global-set-key (kbd "M-s") #'evil-write)
 
   (defun evil-paste-after-from-0 ()
@@ -712,6 +711,7 @@ before packages are loaded."
       (call-interactively 'evil-paste-after)))
 
   (define-key evil-visual-state-map "p" 'evil-paste-after-from-0)
+  (load "im-select")
   )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
