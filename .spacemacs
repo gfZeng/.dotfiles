@@ -488,9 +488,9 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (advice-add
    #'spacemacs/load-theme :around
-   (lambda (f theme &optional fallback-theme disable)
+   (lambda (f theme &optional install)
      (if (display-graphic-p)
-         (funcall f theme fallback-theme disable)
+         (funcall f theme install)
        (message "Ignore load theme for nw-mode"))))
 
   (setq-default
@@ -712,6 +712,12 @@ before packages are loaded."
 
   (define-key evil-visual-state-map "p" 'evil-paste-after-from-0)
   (load "im-select")
+
+  (defun on-after-init ()
+    (unless (display-graphic-p (selected-frame))
+      (set-face-background 'default "unspecified-bg" (selected-frame))))
+
+  (add-hook 'window-setup-hook 'on-after-init)
   )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
