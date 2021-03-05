@@ -12,6 +12,8 @@
 	<false/>
 	<key>AppleAntiAliasingThreshold</key>
 	<integer>1</integer>
+	<key>ApplePressAndHoldEnabled</key>
+	<false/>
 	<key>AppleScrollAnimationEnabled</key>
 	<integer>0</integer>
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
@@ -2087,19 +2089,14 @@
 		<key>TB Is Shown</key>
 		<integer>1</integer>
 	</dict>
-	<key>NSUserKeyEquivalents</key>
-	<dict>
-		<key>Toggle Broadcast Input to Current Session</key>
-		<string> </string>
-	</dict>
 	<key>NSWindow Frame NSNavPanelAutosaveName</key>
-	<string>972 381 799 448 0 0 1920 1057 </string>
-	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>410 363 620 392 0 0 1440 877 </string>
+	<string>440 454 799 448 0 0 1680 1027 </string>
+	<key>NSWindow Frame UKCrashReporter</key>
+	<string>172 230 592 584 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>37 0 1290 935 0 0 1920 1057 </string>
+	<string>7 0 1097 1027 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>0 0 1305 877 0 0 1440 877 </string>
+	<string>212 92 1305 935 0 0 1680 1027 </string>
 	<key>NeverWarnAboutShortLivedSessions_F1371FD3-5CFB-4E89-82D7-D7F6CA5E4D5B</key>
 	<true/>
 	<key>New Bookmarks</key>
@@ -2805,7 +2802,7 @@
 			<key>Minimum Contrast</key>
 			<real>0.0</real>
 			<key>Mouse Reporting</key>
-			<true/>
+			<false/>
 			<key>Name</key>
 			<string>isaac</string>
 			<key>Non Ascii Font</key>
@@ -2907,7 +2904,7 @@
 					<key>notes</key>
 					<string>Quoted string</string>
 					<key>precision</key>
-					<string>normal</string>
+					<string>low</string>
 					<key>regex</key>
 					<string>@?"(?:[^"\\]|\\.)*"</string>
 				</dict>
@@ -2944,6 +2941,8 @@
 					<string>\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b</string>
 				</dict>
 				<dict>
+					<key>actions</key>
+					<array/>
 					<key>notes</key>
 					<string>HTTP URL</string>
 					<key>precision</key>
@@ -2960,12 +2959,24 @@
 					<string>\bssh:([a-z0-9A-Z_]+@)?([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\b</string>
 				</dict>
 				<dict>
+					<key>actions</key>
+					<array/>
 					<key>notes</key>
 					<string>Telnet URL</string>
 					<key>precision</key>
 					<string>very_high</string>
 					<key>regex</key>
 					<string>\btelnet:([a-z0-9A-Z_]+@)?([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\b</string>
+				</dict>
+				<dict>
+					<key>actions</key>
+					<array/>
+					<key>notes</key>
+					<string>Bash Quoted</string>
+					<key>precision</key>
+					<string>normal</string>
+					<key>regex</key>
+					<string>([^'"\s\\]|\\.)*</string>
 				</dict>
 			</array>
 			<key>Status Bar Layout</key>
@@ -3819,22 +3830,21 @@
 	</array>
 	<key>NoSyncAllAppVersions</key>
 	<array>
-		<string>3.3.3</string>
-		<string>3.3.7</string>
+		<string>3.3.12</string>
 	</array>
 	<key>NoSyncFrame_SharedPreferences</key>
 	<dict>
 		<key>screenFrame</key>
-		<string>{{0, 0}, {1920, 1080}}</string>
+		<string>{{0, 0}, {1680, 1050}}</string>
 		<key>topLeft</key>
-		<string>{243, 676}</string>
+		<string>{252, 826}</string>
 	</dict>
 	<key>NoSyncInstallationId</key>
-	<string>AD82F85F-3ADB-4868-9A6F-A98FC189B6A4</string>
+	<string>DE2DCC8E-9177-441C-A532-141E06532F61</string>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>87</integer>
+	<integer>20</integer>
 	<key>NoSyncNextAnnoyanceTime</key>
-	<real>591017287.85198998</real>
+	<real>619588959.87065005</real>
 	<key>NoSyncOnboardingWindowHasBeenShown</key>
 	<true/>
 	<key>NoSyncPermissionToShowTip</key>
@@ -4261,7 +4271,7 @@
 				<key>isTerminal</key>
 				<true/>
 				<key>name</key>
-				<string>currentTab.currentSession.path</string>
+				<string>currentTab.currentSession.commandLine</string>
 				<key>nonterminalContext</key>
 				<integer>0</integer>
 			</dict>
@@ -4269,7 +4279,7 @@
 				<key>isTerminal</key>
 				<true/>
 				<key>name</key>
-				<string>currentTab.currentSession.commandLine</string>
+				<string>currentTab.currentSession.path</string>
 				<key>nonterminalContext</key>
 				<integer>0</integer>
 			</dict>
@@ -4545,12 +4555,8 @@
 			</dict>
 		</array>
 	</dict>
-	<key>NoSyncSearchHistory2</key>
-	<array>
-		<string>1 min</string>
-	</array>
 	<key>NoSyncTipOfTheDayEligibilityBeganTime</key>
-	<real>589509995.02593505</real>
+	<real>617711662.26924503</real>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -4627,18 +4633,16 @@
 	<key>RightOption</key>
 	<integer>8</integer>
 	<key>SUEnableAutomaticChecks</key>
-	<false/>
+	<true/>
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/final_new.xml?shard=29</string>
+	<string>https://iterm2.com/appcasts/final_new.xml?shard=26</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-12-03T19:34:12Z</date>
+	<date>2020-10-11T11:17:03Z</date>
 	<key>SUSendProfileInfo</key>
-	<false/>
-	<key>SUUpdateRelaunchingMarker</key>
 	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
@@ -4668,6 +4672,8 @@
 	<integer>10</integer>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
+	<key>UKCrashReporterLastCrashReportDate</key>
+	<real>1600657024</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>Use background pattern indicator</key>
@@ -4697,7 +4703,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.3.7</string>
+	<string>3.3.12</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
